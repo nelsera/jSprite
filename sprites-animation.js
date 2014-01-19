@@ -3,86 +3,82 @@ var spriteAnimation = spriteAnimation || {};
 (function (scope) {
     'use strict';
 
-	var sprite_tempo_transicao = 50; //milsec
-	var sprite_tempo_reload = 3; //segundos
-	var sprite_transicao_timeout, sprite_reload_timeout;
-	var sprite_item_posicao = 0;
-	var sprite_item_top = 0;
-	var sprite_item_left = 0;
-	var sprite_hover = false;
+    var spriteTimeTransition = 50; //milsec
+    var spriteTimeReload = 3; //seconds
+    var spriteTimeoutTransition, spriteReloadTimeout;
+    var spriteItemPosition = 0;
+    var spriteItemTop = 0;
+    var spriteItemLeft = 0;
+    var spriteHover = false;
 
-	function animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback){
-		clearTimeout(sprite_transicao_timeout);
-		clearTimeout(sprite_reload_timeout);
+    scope.play = function (element, width, height, itemLine, total, timeTransition, timeReload, callback){
+        clearTimeout(spriteTimeoutTransition);
+        clearTimeout(spriteReloadTimeout);
 
-		tempo_transicao = (typeof tempo_transicao !== "undefined") ? tempo_transicao : sprite_tempo_transicao;
-		tempo_reload = (typeof tempo_reload !== "undefined") && (tempo_reload != 0) ? tempo_reload : 0;
+        timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
+        timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
 
-		//console.log(tempo_reload);
+        //console.log(timeReload);
+        //console.log(timeTransition);
 
-		//console.log(tempo_transicao);
+        var spriteBgWidth = width;
+        var spriteBgHeight = height;
+        var spriteBgline = itemLine;
+        var spriteBgTotal = total;
 
-		var sprite_bg_width = width;
-		var sprite_bg_height = height;
-		var sprite_bg_linha = item_linha;
-		var sprite_bg_total = total;
+        if (element.length && element.is(":visible")) {
+            if (spriteItemPosition < (spriteBgTotal - 1)) {
+                spriteItemPosition++;
 
-		if(elemento.length && elemento.is(":visible")){
-			if(sprite_item_posicao < (sprite_bg_total - 1)){
-	            sprite_item_posicao++;
+                var line = (spriteItemPosition % spriteBgline) / 100;
 
-	            var linha = (sprite_item_posicao % sprite_bg_linha) / 100;
+                spriteItemLeft = spriteItemLeft + spriteBgWidth;
 
-	            sprite_item_left = sprite_item_left + sprite_bg_width;
+                if(line == 0){
+                   spriteItemTop = spriteItemTop + spriteBgHeight;
+                   spriteItemLeft = 0;
+                }
 
-	            if(linha == 0){
-	               sprite_item_top = sprite_item_top + sprite_bg_height;
-	               sprite_item_left = 0;
-	            }
+                element.css({
+                    'background-position' : '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'
+                });
 
-	            elemento.css({
-	                'background-position' : '-' + sprite_item_left + 'px -' + sprite_item_top + 'px'
-	            });
+                spriteTimeoutTransition = setTimeout(function(){
+                    play(element, width, height, itemLine, total, timeTransition, timeReload, callback);
+                }, timeTransition);
+            } else {
+                if (timeReload) {
+                    spriteReloadTimeout = setTimeout (function () {
+                        spriteItemPosition = 0;
+                        spriteItemTop = 0;
+                        spriteItemLeft = 0;
 
-	            sprite_transicao_timeout = setTimeout(function(){
-	                animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
-	            }, tempo_transicao);
-	        }else{
-	        	if(tempo_reload){
-		            sprite_reload_timeout = setTimeout(function(){
-			            sprite_item_posicao = 0;
-			            sprite_item_top = 0;
-			            sprite_item_left = 0;
+                        element.css({'background-position': '0 0'});
 
-			            elemento.css({
-			                'background-position' : '0 0'
-			            });
+                        play(element, width, height, itemLine, total, timeTransition, timeReload, callback);
+                    }, timeReload * 1000);
+                }
 
-		                animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
-		            }, tempo_reload * 1000);
-	        	}
+                if (callback){
+                    callback();
+                }
+            }
+        }
+    }
 
-	            if(callback){
-	            	callback();
-	            }
-	        }
-		}
-	}
+    scope.sprite = function (element, width, height, itemLine, total, timeTransition, timeReload, callback){
+        spriteItemPosition = 0;
+        spriteItemTop = 0;
+        spriteItemLeft = 0;
 
-	function sprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback){
-		sprite_item_posicao = 0;
-		sprite_item_top = 0;
-		sprite_item_left = 0;
+        timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
+        timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
 
-		tempo_transicao = (typeof tempo_transicao !== "undefined") ? tempo_transicao : sprite_tempo_transicao;
-		tempo_reload = (typeof tempo_reload !== "undefined") && (tempo_reload != 0) ? tempo_reload : 0;
+        play(element, width, height, itemLine, total, timeTransition, timeReload, callback);
+    }
 
-		animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
-	}
-
-	function spriteDestroy(){
-		clearTimeout(sprite_transicao_timeout);
-		clearTimeout(sprite_reload_timeout);
-	}    
-
+    scope.destroy = function () {
+        clearTimeout(spriteTimeoutTransition);
+        clearTimeout(spriteReloadTimeout);
+    }
 }(spriteAnimation));
