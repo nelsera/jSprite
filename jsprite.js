@@ -3,6 +3,14 @@
 
     var ver = '0.1.0';
 
+    function debug() {
+
+    }
+
+    function log() {
+        
+    }
+    
     $.fn.jsprite = function(options, arg2) {
         var $this = $(this),
             spriteTimeTransition = 50, //milsec
