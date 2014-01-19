@@ -8,11 +8,17 @@
 	<script src="jsprite.js"></script>
 	<script>
 		$(document).ready(function () {
-			$('body').jsprite();
+			$('animation').jsprite();
 		});
 	</script>
+
+	<style>
+		.animation {
+			background: url(sprite.png) no-repeat;
+		}
+	</style>
 </head>
 <body>
-	
+	<div class="animation"></div>
 </body>
 </html>
