@@ -8,7 +8,12 @@
 	<script src="jsprite.js"></script>
 	<script>
 		$(document).ready(function () {
-			$('animation').jsprite();
+			$('animation').jsprite({
+				width: '50px', 
+				height: '72px', 
+				itemLine: '10', 
+				total: '10'
+			});
 		});
 	</script>
 
