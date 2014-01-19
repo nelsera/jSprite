@@ -39,11 +39,9 @@ var spriteAnimation = spriteAnimation || {};
                    spriteItemLeft = 0;
                 }
 
-                element.css({
-                    'background-position' : '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'
-                });
+                element.css({'background-position' :'-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
 
-                spriteTimeoutTransition = setTimeout(function(){
+                spriteTimeoutTransition = setTimeout( function () {
                     play(element, width, height, itemLine, total, timeTransition, timeReload, callback);
                 }, timeTransition);
             } else {
@@ -59,7 +57,7 @@ var spriteAnimation = spriteAnimation || {};
                     }, timeReload * 1000);
                 }
 
-                if (callback){
+                if (callback) {
                     callback();
                 }
             }
