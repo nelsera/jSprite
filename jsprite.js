@@ -1,94 +1,91 @@
 (function($, undefined) {    
     'use strict';
 
-    var sprite_tempo_transicao = 50; //milsec
-    var sprite_tempo_reload = 3; //segundos
-    var sprite_transicao_timeout, sprite_reload_timeout;
-    var sprite_item_posicao = 0;
-    var sprite_item_top = 0;
-    var sprite_item_left = 0;
-    var sprite_hover = false;
+    var spriteTimeTransition = 50, //milsec
+        spriteTimeReload = 3, //segundos
+        spriteTransitionTimeout,
+        spriteReloadTimeout,
+        spriteItemPosition = 0,
+        spriteItemTop = 0,
+        spriteItemLeft = 0,
+        spriteHover = false;
 
     function animaSprite(args, callback) {
-        var elemento = args.elemento,
+        var element = args.element,
             width = args.width,
             height = args.height,
-            item_linha = args.item_linha,
+            itemLine = args.itemLine,
             total = args.total,
-            tempo_transicao = args.tempo_transicao,
-            tempo_reload = args.tempo_reload;
+            timeTransition = args.timeTransition,
+            timeReload = args.timeReload;
 
-        clearTimeout(sprite_transicao_timeout);
-        clearTimeout(sprite_reload_timeout);
+        clearTimeout(spriteTransitionTimeout);
+        clearTimeout(spriteReloadTimeout);
 
-        tempo_transicao = (typeof tempo_transicao !== undefined) ? tempo_transicao : sprite_tempo_transicao;
-        tempo_reload = (typeof tempo_reload !== undefined) && (tempo_reload != 0) ? tempo_reload : 0;
+        timeTransition = (typeof timeTransition !== undefined) ? timeTransition : spriteTimeTransition;
+        timeReload = (typeof timeReload !== undefined) && (timeReload != 0) ? timeReload : 0;
 
-        var sprite_bg_width = width;
-        var sprite_bg_height = height;
-        var sprite_bg_linha = item_linha;
-        var sprite_bg_total = total;
+        var spriteBgWidth = width;
+        var spriteBgHeight = height;
+        var spriteBgLine = itemLine;
+        var spriteBgTotal = total;
 
-        if(elemento.length && elemento.is(':visible')){
-            if(sprite_item_posicao < (sprite_bg_total - 1)){
-                sprite_item_posicao++;
+        if (element.length && element.is(':visible')) {
+            if (spriteItemPosition < (spriteBgTotal - 1)) {
+                spriteItemPosition++;
 
-                var linha = (sprite_item_posicao % sprite_bg_linha) / 100;
+                var line = (spriteItemPosition % spriteBgLine) / 100;
 
-                sprite_item_left = sprite_item_left + sprite_bg_width;
+                spriteItemLeft = spriteItemLeft + spriteBgWidth;
 
-                if(linha == 0){
-                   sprite_item_top = sprite_item_top + sprite_bg_height;
-                   sprite_item_left = 0;
+                if (line == 0) {
+                   spriteItemTop = spriteItemTop + spriteBgHeight;
+                   spriteItemLeft = 0;
                 }
 
-                elemento.css({
-                    'background-position' : '-' + sprite_item_left + 'px -' + sprite_item_top + 'px'
-                });
+                element.css({'background-position': '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
 
-                sprite_transicao_timeout = setTimeout(function(){
+                spriteTransitionTimeout = setTimeout(function() {
                     animaSprite(args, callback);
-                }, tempo_transicao);
-            }else{
-                if(tempo_reload){
-                    sprite_reload_timeout = setTimeout(function(){
-                        sprite_item_posicao = 0;
-                        sprite_item_top = 0;
-                        sprite_item_left = 0;
+                }, timeTransition);
+            } else {
+                if (timeReload) {
+                    spriteReloadTimeout = setTimeout(function() {
+                        spriteItemPosition = 0;
+                        spriteItemTop = 0;
+                        spriteItemLeft = 0;
 
-                        elemento.css({
-                            'background-position' : '0 0'
-                        });
+                        element.css({'background-position': '0 0'});
 
                         animaSprite(args, callback);
-                    }, tempo_reload * 1000);
+                    }, timeReload * 1000);
                 }
 
-                if(callback){
+                if (callback) {
                     callback();
                 }
             }
         }
     }
 
-    function sprite(args, callback){
-        sprite_item_posicao = 0;
-        sprite_item_top = 0;
-        sprite_item_left = 0;
+    function sprite(args, callback) {
+        spriteItemPosition = 0;
+        spriteItemTop = 0;
+        spriteItemLeft = 0;
 
-        args.tempo_transicao = (typeof args.tempo_transicao !== undefined) ? args.tempo_transicao : sprite_tempo_transicao;
-        args.tempo_reload = (typeof args.tempo_reload !== undefined) && (args.tempo_reload != 0) ? args.tempo_reload : 0;
+        args.timeTransition = (typeof args.timeTransition !== undefined) ? args.timeTransition : spriteTimeTransition;
+        args.timeReload = (typeof args.timeReload !== undefined) && (args.timeReload != 0) ? args.timeReload : 0;
 
         animaSprite(args, callback);
     }
 
     sprite({
-        elemento: $('.animation'),
+        element: $('.animation'),
         width: 330,
         height: 500,
-        item_linha: 9,
+        itemLine: 9,
         total: 65,
-        tempo_transicao: 30,
-        tempo_reload: 2
+        timeTransition: 30,
+        timeReload: 2
     });
 }(jQuery));
