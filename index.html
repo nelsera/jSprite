@@ -4,29 +4,29 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="jsprite.js"></script>
-	<script>
-		$(document).ready(function () {
-			$('animation').jsprite({
-				width: '50px', 
-				height: '72px', 
-				itemLine: '10', 
-				total: '10'
-			});
-		});
-	</script>
-
 	<style>
 		.animation {
 			background: url(sprite.png) no-repeat;
-			width: 50px;
-			height: 72px;
-			display: inline-block;		
+			width: 330px;
+			height: 500px;
+			display: inline-block;
 		}
 	</style>
 </head>
 <body>
 	<div class="animation"></div>
+
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="jsprite.js"></script>
+	<script>
+		$(document).ready(function () {
+			// $('.animation').jsprite({
+			// 	width: '50px',
+			// 	height: '72px',
+			// 	itemLine: '10',
+			// 	total: '10'
+			// });
+		});
+	</script>
 </body>
 </html>

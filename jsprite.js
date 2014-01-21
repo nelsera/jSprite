@@ -1,96 +1,82 @@
 (function($, undefined) {    
     'use strict';
 
-    var ver = '0.1.0';
+    var sprite_tempo_transicao = 50; //milsec
+    var sprite_tempo_reload = 3; //segundos
+    var sprite_transicao_timeout, sprite_reload_timeout;
+    var sprite_item_posicao = 0;
+    var sprite_item_top = 0;
+    var sprite_item_left = 0;
+    var sprite_hover = false;
 
-    function debug() {
+    function animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback){
+        clearTimeout(sprite_transicao_timeout);
+        clearTimeout(sprite_reload_timeout);
 
-    }
+        tempo_transicao = (typeof tempo_transicao !== "undefined") ? tempo_transicao : sprite_tempo_transicao;
+        tempo_reload = (typeof tempo_reload !== "undefined") && (tempo_reload != 0) ? tempo_reload : 0;
 
-    function log() {
-        
-    }
-    
-    $.fn.jsprite = function(options, arg2) {
-        var $this = $(this),
-            spriteTimeTransition = 50, //milsec
-            spriteTimeReload = 3, //seconds
-            spriteTimeoutTransition, 
-            spriteReloadTimeout,
-            spriteItemPosition = 0,
-            spriteItemTop = 0,
-            spriteItemLeft = 0,
-            spriteHover = false;
+        //console.log(tempo_reload);
 
-        var play = function (element, width, height, itemLine, total, timeTransition, timeReload, callback){
-            clearTimeout(spriteTimeoutTransition);
-            clearTimeout(spriteReloadTimeout);
+        //console.log(tempo_transicao);
 
-            timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
-            timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
+        var sprite_bg_width = width;
+        var sprite_bg_height = height;
+        var sprite_bg_linha = item_linha;
+        var sprite_bg_total = total;
 
-            //console.log(timeReload);
-            //console.log(timeTransition);
+        if(elemento.length && elemento.is(":visible")){
+            if(sprite_item_posicao < (sprite_bg_total - 1)){
+                sprite_item_posicao++;
 
-            var spriteBgWidth = width;
-            var spriteBgHeight = height;
-            var spriteBgline = itemLine;
-            var spriteBgTotal = total;
+                var linha = (sprite_item_posicao % sprite_bg_linha) / 100;
 
-            if (element.length && element.is(":visible")) {
-                if (spriteItemPosition < (spriteBgTotal - 1)) {
-                    spriteItemPosition++;
+                sprite_item_left = sprite_item_left + sprite_bg_width;
 
-                    var line = (spriteItemPosition % spriteBgline) / 100;
+                if(linha == 0){
+                   sprite_item_top = sprite_item_top + sprite_bg_height;
+                   sprite_item_left = 0;
+                }
 
-                    spriteItemLeft = spriteItemLeft + spriteBgWidth;
+                $('.animation').css({
+                    'background-position' : '-' + sprite_item_left + 'px -' + sprite_item_top + 'px'
+                });
 
-                    if(line == 0){
-                       spriteItemTop = spriteItemTop + spriteBgHeight;
-                       spriteItemLeft = 0;
-                    }
+                sprite_transicao_timeout = setTimeout(function(){
+                    animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
+                }, tempo_transicao);
+            }else{
+                if(tempo_reload){
+                    sprite_reload_timeout = setTimeout(function(){
+                        sprite_item_posicao = 0;
+                        sprite_item_top = 0;
+                        sprite_item_left = 0;
 
-                    element.css({'background-position' :'-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
+                        elemento.css({
+                            'background-position' : '0 0'
+                        });
 
-                    spriteTimeoutTransition = setTimeout( function () {
-                        play(element, width, height, itemLine, total, timeTransition, timeReload, callback);
-                    }, timeTransition);
-                } else {
-                    if (timeReload) {
-                        spriteReloadTimeout = setTimeout (function () {
-                            spriteItemPosition = 0;
-                            spriteItemTop = 0;
-                            spriteItemLeft = 0;
+                        animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
+                    }, tempo_reload * 1000);
+                }
 
-                            element.css({'background-position': '0 0'});
-
-                            play(element, width, height, itemLine, total, timeTransition, timeReload, callback);
-                        }, timeReload * 1000);
-                    }
-
-                    if (callback) {
-                        callback();
-                    }
+                if(callback){
+                    callback();
                 }
             }
         }
-
-        var sprite = function (element, width, height, itemLine, total, timeTransition, timeReload, callback){
-            spriteItemPosition = 0;
-            spriteItemTop = 0;
-            spriteItemLeft = 0;
-
-            timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
-            timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
-
-            play(element, width, height, itemLine, total, timeTransition, timeReload, callback);
-        }
-
-        var destroy = function () {
-            clearTimeout(spriteTimeoutTransition);
-            clearTimeout(spriteReloadTimeout);
-        }
-
-        return this;
     }
+
+    function sprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback){
+        sprite_item_posicao = 0;
+        sprite_item_top = 0;
+        sprite_item_left = 0;
+
+        tempo_transicao = (typeof tempo_transicao !== "undefined") ? tempo_transicao : sprite_tempo_transicao;
+        tempo_reload = (typeof tempo_reload !== "undefined") && (tempo_reload != 0) ? tempo_reload : 0;
+
+        animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
+    }
+
+    sprite($('.animation'), 330, 500, 9, 65, 30, 2);
 }(jQuery));
