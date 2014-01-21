@@ -9,23 +9,27 @@
     var sprite_item_left = 0;
     var sprite_hover = false;
 
-    function animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback){
+    function animaSprite(args, callback) {
+        var elemento = args.elemento,
+            width = args.width,
+            height = args.height,
+            item_linha = args.item_linha,
+            total = args.total,
+            tempo_transicao = args.tempo_transicao,
+            tempo_reload = args.tempo_reload;
+
         clearTimeout(sprite_transicao_timeout);
         clearTimeout(sprite_reload_timeout);
 
-        tempo_transicao = (typeof tempo_transicao !== "undefined") ? tempo_transicao : sprite_tempo_transicao;
-        tempo_reload = (typeof tempo_reload !== "undefined") && (tempo_reload != 0) ? tempo_reload : 0;
-
-        //console.log(tempo_reload);
-
-        //console.log(tempo_transicao);
+        tempo_transicao = (typeof tempo_transicao !== undefined) ? tempo_transicao : sprite_tempo_transicao;
+        tempo_reload = (typeof tempo_reload !== undefined) && (tempo_reload != 0) ? tempo_reload : 0;
 
         var sprite_bg_width = width;
         var sprite_bg_height = height;
         var sprite_bg_linha = item_linha;
         var sprite_bg_total = total;
 
-        if(elemento.length && elemento.is(":visible")){
+        if(elemento.length && elemento.is(':visible')){
             if(sprite_item_posicao < (sprite_bg_total - 1)){
                 sprite_item_posicao++;
 
@@ -38,12 +42,12 @@
                    sprite_item_left = 0;
                 }
 
-                $('.animation').css({
+                elemento.css({
                     'background-position' : '-' + sprite_item_left + 'px -' + sprite_item_top + 'px'
                 });
 
                 sprite_transicao_timeout = setTimeout(function(){
-                    animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
+                    animaSprite(args, callback);
                 }, tempo_transicao);
             }else{
                 if(tempo_reload){
@@ -56,7 +60,7 @@
                             'background-position' : '0 0'
                         });
 
-                        animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
+                        animaSprite(args, callback);
                     }, tempo_reload * 1000);
                 }
 
@@ -67,16 +71,24 @@
         }
     }
 
-    function sprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback){
+    function sprite(args, callback){
         sprite_item_posicao = 0;
         sprite_item_top = 0;
         sprite_item_left = 0;
 
-        tempo_transicao = (typeof tempo_transicao !== "undefined") ? tempo_transicao : sprite_tempo_transicao;
-        tempo_reload = (typeof tempo_reload !== "undefined") && (tempo_reload != 0) ? tempo_reload : 0;
+        args.tempo_transicao = (typeof args.tempo_transicao !== undefined) ? args.tempo_transicao : sprite_tempo_transicao;
+        args.tempo_reload = (typeof args.tempo_reload !== undefined) && (args.tempo_reload != 0) ? args.tempo_reload : 0;
 
-        animaSprite(elemento, width, height, item_linha, total, tempo_transicao, tempo_reload, callback);
+        animaSprite(args, callback);
     }
 
-    sprite($('.animation'), 330, 500, 9, 65, 30, 2);
+    sprite({
+        elemento: $('.animation'),
+        width: 330,
+        height: 500,
+        item_linha: 9,
+        total: 65,
+        tempo_transicao: 30,
+        tempo_reload: 2
+    });
 }(jQuery));
