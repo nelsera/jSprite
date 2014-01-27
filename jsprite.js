@@ -1,23 +1,32 @@
 ;(function($, undefined) {
     'use strict';
 
-    var spriteTimeTransition = 50, //milsec
-        spriteTimeReload = 3, //segundos
+    var ver                         = '0.1.0',
+        spriteTimeTransition        = 50, //milsec
+        spriteTimeReload            = 3, //segundos
         spriteTransitionTimeout,
         spriteReloadTimeout,
-        spriteItemPosition = 0,
-        spriteItemTop = 0,
-        spriteItemLeft = 0,
-        spriteHover = false;
+        spriteItemPosition          = 0,
+        spriteItemTop               = 0,
+        spriteItemLeft              = 0,
+        spriteHover                 = false;
 
-    function animaSprite(args, callback) {
-        var element = args.element,
-            width = args.width,
-            height = args.height,
-            itemLine = args.itemLine,
-            total = args.total,
-            timeTransition = args.timeTransition,
-            timeReload = args.timeReload;
+    var debug = function (s) {
+
+    };
+
+    var log = function () {
+
+    };
+
+    var animaSprite = function (args, callback) {
+        var element                 = args.element,
+            width                   = args.width,
+            height                  = args.height,
+            itemLine                = args.itemLine,
+            total                   = args.total,
+            timeTransition          = args.timeTransition,
+            timeReload              = args.timeReload;
 
         clearTimeout(spriteTransitionTimeout);
         clearTimeout(spriteReloadTimeout);
@@ -25,10 +34,10 @@
         timeTransition = (typeof timeTransition !== undefined) ? timeTransition : spriteTimeTransition;
         timeReload = (typeof timeReload !== undefined) && (timeReload != 0) ? timeReload : 0;
 
-        var spriteBgWidth = width;
-        var spriteBgHeight = height;
-        var spriteBgLine = itemLine;
-        var spriteBgTotal = total;
+        var spriteBgWidth = width,
+            spriteBgHeight = height,
+            spriteBgLine = itemLine,
+            spriteBgTotal = total;
 
         if (element.length && element.is(':visible')) {
             if (spriteItemPosition < (spriteBgTotal - 1)) {
@@ -66,9 +75,9 @@
                 }
             }
         }
-    }
+    };
 
-    function sprite(args, callback) {
+    var sprite = function (args, callback) {
         spriteItemPosition = 0;
         spriteItemTop = 0;
         spriteItemLeft = 0;
@@ -77,7 +86,7 @@
         args.timeReload = (typeof args.timeReload !== undefined) && (args.timeReload != 0) ? args.timeReload : 0;
 
         animaSprite(args, callback);
-    }
+    };
 
     sprite({
         element: $('.animation'),
