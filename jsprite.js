@@ -31,8 +31,8 @@
         clearTimeout(spriteTransitionTimeout);
         clearTimeout(spriteReloadTimeout);
 
-        timeTransition = (typeof timeTransition !== undefined) ? timeTransition : spriteTimeTransition;
-        timeReload = (typeof timeReload !== undefined) && (timeReload != 0) ? timeReload : 0;
+        timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
+        timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
 
         var spriteBgWidth = width,
             spriteBgHeight = height,
@@ -83,8 +83,8 @@
         spriteItemTop = 0;
         spriteItemLeft = 0;
 
-        args.timeTransition = (typeof args.timeTransition !== undefined) ? args.timeTransition : spriteTimeTransition;
-        args.timeReload = (typeof args.timeReload !== undefined) && (args.timeReload != 0) ? args.timeReload : 0;
+        args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
+        args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload != 0) ? args.timeReload : 0;
 
         animaSprite(args, callback);
     };
