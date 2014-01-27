@@ -92,5 +92,7 @@
 
     $.fn.jSprite = function (args) {
         sprite($.extend({}, { element: this }, args));
+
+        return this;
     }
 }(jQuery));
