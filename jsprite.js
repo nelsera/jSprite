@@ -78,6 +78,7 @@
     };
 
     var sprite = function (args, callback) {
+        console.log(this);
         spriteItemPosition = 0;
         spriteItemTop = 0;
         spriteItemLeft = 0;
@@ -88,13 +89,7 @@
         animaSprite(args, callback);
     };
 
-    sprite({
-        element: $('.animation'),
-        width: 330,
-        height: 500,
-        itemLine: 9,
-        total: 65,
-        timeTransition: 30,
-        timeReload: 2
-    });
+    $.fn.jsprite = function (args) {
+        sprite($.extend({}, { element: this }, args));
+    }
 }(jQuery));
