@@ -12,7 +12,9 @@
         spriteHover                 = false;
 
     var debug = function (s) {
-
+        if ($.fn.jSprite.debug) {
+            log(s);
+        }
     };
 
     var log = function () {
@@ -78,7 +80,6 @@
     };
 
     var sprite = function (args, callback) {
-        console.log(this);
         spriteItemPosition = 0;
         spriteItemTop = 0;
         spriteItemLeft = 0;
@@ -89,7 +90,7 @@
         animaSprite(args, callback);
     };
 
-    $.fn.jsprite = function (args) {
+    $.fn.jSprite = function (args) {
         sprite($.extend({}, { element: this }, args));
     }
 }(jQuery));
