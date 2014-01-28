@@ -1,7 +1,7 @@
 ;(function($, undefined) {
     'use strict';
 
-    var ver                         = '0.1.0',
+    var ver                         = '1.0.0',
         spriteTimeTransition        = 50, //milsec
         spriteTimeReload            = 3, //segundos
         spriteTransitionTimeout,
