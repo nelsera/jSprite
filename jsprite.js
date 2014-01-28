@@ -21,7 +21,7 @@
 
     };
 
-    var animaSprite = function (args, callback) {
+    var animation = function (args, callback) {
         var element                 = args.element,
             width                   = args.width,
             height                  = args.height,
@@ -57,7 +57,7 @@
                 element.css({'background-position': '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
 
                 spriteTransitionTimeout = setTimeout(function() {
-                    animaSprite(args, callback);
+                    animation(args, callback);
                 }, timeTransition);
             } else {
                 if (timeReload) {
@@ -68,14 +68,14 @@
 
                         element.css({'background-position': '0 0'});
 
-                        animaSprite(args, callback);
+                        animation(args, callback);
                     }, timeReload * 1000);
                 }
             }
         }
     };
 
-    var sprite = function (args, callback) {
+    var play = function (args, callback) {
         spriteItemPosition  = 0,
         spriteItemTop       = 0,
         spriteItemLeft      = 0;
@@ -83,11 +83,11 @@
         args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
         args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload != 0) ? args.timeReload : 0;
 
-        animaSprite(args, callback);
+        animation(args, callback);
     };
 
     $.fn.jSprite = function (args) {
-        sprite($.extend({}, { element: this }, args));
+        play($.extend({}, { element: this }, args));
 
         return this;
     }
