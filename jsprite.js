@@ -21,6 +21,18 @@
 
     };
 
+    var pause = function () {
+
+    };
+
+    var stop = function () {
+
+    };
+
+    var goTo = function () {
+
+    };
+
     var animation = function (args, callback) {
         var element                 = args.element,
             width                   = args.width,
