@@ -36,10 +36,10 @@
         timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
         timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
 
-        var spriteBgWidth = width,
-            spriteBgHeight = height,
-            spriteBgLine = itemLine,
-            spriteBgTotal = total;
+        var spriteBgWidth   = width,
+            spriteBgHeight  = height,
+            spriteBgLine    = itemLine,
+            spriteBgTotal   = total;
 
         if (element.length && element.is(':visible')) {
             if (spriteItemPosition < (spriteBgTotal - 1)) {
@@ -71,18 +71,14 @@
                         animaSprite(args, callback);
                     }, timeReload * 1000);
                 }
-
-                if (callback) {
-                    callback();
-                }
             }
         }
     };
 
     var sprite = function (args, callback) {
-        spriteItemPosition = 0;
-        spriteItemTop = 0;
-        spriteItemLeft = 0;
+        spriteItemPosition  = 0,
+        spriteItemTop       = 0,
+        spriteItemLeft      = 0;
 
         args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
         args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload != 0) ? args.timeReload : 0;
