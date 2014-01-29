@@ -33,11 +33,23 @@
 
     };
 
+    var getSize = function (args) {
+        var imageSrc = $(args.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+
+        var image = new Image();
+        image.src = imageSrc;
+
+        return {
+            width: image.width/args.itensLine,
+            height: image.height/args.totalLines
+        };
+    };
+
     var animation = function (args, callback) {
         var element                 = args.element,
             width                   = args.width,
             height                  = args.height,
-            itemLine                = args.itemLine,
+            itensLine                = args.itensLine,
             total                   = args.total,
             timeTransition          = args.timeTransition,
             timeReload              = args.timeReload;
@@ -50,7 +62,7 @@
 
         var spriteBgWidth   = width,
             spriteBgHeight  = height,
-            spriteBgLine    = itemLine,
+            spriteBgLine    = itensLine,
             spriteBgTotal   = total;
 
         if (element.length && element.is(':visible')) {
@@ -95,7 +107,7 @@
         args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
         args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload != 0) ? args.timeReload : 0;
 
-        animation(args, callback);
+        animation($.extend({}, getSize(args), args), callback);
     };
 
     $.fn.jSprite = function (args) {
