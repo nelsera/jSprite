@@ -49,7 +49,7 @@
         var element                 = args.element,
             width                   = args.width,
             height                  = args.height,
-            itensLine                = args.itensLine,
+            itensLine               = args.itensLine,
             total                   = args.total,
             timeTransition          = args.timeTransition,
             timeReload              = args.timeReload;
@@ -107,7 +107,11 @@
         args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
         args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload != 0) ? args.timeReload : 0;
 
-        animation($.extend({}, getSize(args), args), callback);
+        if (args.getSize) {
+            var args = $.extend({}, getSize(args), args);
+        }
+
+        animation(args, callback);
     };
 
     $.fn.jSprite = function (args) {
