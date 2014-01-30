@@ -40,8 +40,8 @@
         image.src = imageSrc;
 
         return {
-            width: image.width/args.itensLine,
-            height: image.height/args.totalLines
+            width: image.width/args.colluns,
+            height: image.height/args.lines
         };
     };
 
@@ -49,7 +49,7 @@
         var element                 = args.element,
             width                   = args.width,
             height                  = args.height,
-            itensLine               = args.itensLine,
+            colluns                 = args.colluns,
             total                   = args.total,
             timeTransition          = args.timeTransition,
             timeReload              = args.timeReload;
@@ -62,7 +62,7 @@
 
         var spriteBgWidth   = width,
             spriteBgHeight  = height,
-            spriteBgLine    = itensLine,
+            spriteBgLine    = colluns,
             spriteBgTotal   = total;
 
         if (element.length && element.is(':visible')) {
