@@ -1,15 +1,7 @@
 ;(function($, undefined) {
     'use strict';
 
-    var ver                         = '1.0.0',
-        spriteTimeTransition        = 50, //milsec
-        spriteTimeReload            = 3, //segundos
-        spriteTransitionTimeout,
-        spriteReloadTimeout,
-        spriteItemPosition          = 0,
-        spriteItemTop               = 0,
-        spriteItemLeft              = 0,
-        spriteHover                 = false;
+    var ver = '1.0.0';
 
     var debug = function (s) {
         if ($.fn.jSprite.debug) {
@@ -45,61 +37,70 @@
         };
     };
 
-    var animation = function (args, callback) {
-        var element                 = args.element,
-            width                   = args.width,
-            height                  = args.height,
-            colluns                 = args.colluns,
-            total                   = args.total,
-            timeTransition          = args.timeTransition,
-            timeReload              = args.timeReload;
+    var play = function (args, callback) {
+        var spriteTimeTransition    = 50, //milsec
+        spriteTimeReload            = 3, //segundos
+        spriteTransitionTimeout,
+        spriteReloadTimeout,
+        spriteItemPosition          = 0,
+        spriteItemTop               = 0,
+        spriteItemLeft              = 0,
+        spriteHover                 = false;
 
-        clearTimeout(spriteTransitionTimeout);
-        clearTimeout(spriteReloadTimeout);
+        function animation (args, callback) {
+            var element                 = args.element,
+                width                   = args.width,
+                height                  = args.height,
+                colluns                 = args.colluns,
+                total                   = args.total,
+                timeTransition          = args.timeTransition,
+                timeReload              = args.timeReload;
 
-        timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
-        timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
+            clearTimeout(spriteTransitionTimeout);
+            clearTimeout(spriteReloadTimeout);
 
-        var spriteBgWidth   = width,
-            spriteBgHeight  = height,
-            spriteBgLine    = colluns,
-            spriteBgTotal   = total;
+            timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
+            timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
 
-        if (element.length && element.is(':visible')) {
-            if (spriteItemPosition < (spriteBgTotal - 1)) {
-                spriteItemPosition++;
+            var spriteBgWidth   = width,
+                spriteBgHeight  = height,
+                spriteBgLine    = colluns,
+                spriteBgTotal   = total;
 
-                var line = (spriteItemPosition % spriteBgLine) / 100;
+            if (element.length && element.is(':visible')) {
+                if (spriteItemPosition < (spriteBgTotal - 1)) {
+                    spriteItemPosition++;
 
-                spriteItemLeft = spriteItemLeft + spriteBgWidth;
+                    var line = (spriteItemPosition % spriteBgLine) / 100;
 
-                if (line == 0) {
-                   spriteItemTop = spriteItemTop + spriteBgHeight;
-                   spriteItemLeft = 0;
-                }
+                    spriteItemLeft = spriteItemLeft + spriteBgWidth;
 
-                element.css({'background-position': '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
+                    if (line == 0) {
+                       spriteItemTop = spriteItemTop + spriteBgHeight;
+                       spriteItemLeft = 0;
+                    }
 
-                spriteTransitionTimeout = setTimeout(function() {
-                    animation(args, callback);
-                }, timeTransition);
-            } else {
-                if (timeReload) {
-                    spriteReloadTimeout = setTimeout(function() {
-                        spriteItemPosition = 0;
-                        spriteItemTop = 0;
-                        spriteItemLeft = 0;
+                    element.css({'background-position': '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
 
-                        element.css({'background-position': '0 0'});
-
+                    spriteTransitionTimeout = setTimeout(function() {
                         animation(args, callback);
-                    }, timeReload * 1000);
+                    }, timeTransition);
+                } else {
+                    if (timeReload) {
+                        spriteReloadTimeout = setTimeout(function() {
+                            spriteItemPosition = 0;
+                            spriteItemTop = 0;
+                            spriteItemLeft = 0;
+
+                            element.css({'background-position': '0 0'});
+
+                            animation(args, callback);
+                        }, timeReload * 1000);
+                    }
                 }
             }
         }
-    };
 
-    var play = function (args, callback) {
         spriteItemPosition  = 0,
         spriteItemTop       = 0,
         spriteItemLeft      = 0;
