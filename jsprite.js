@@ -26,10 +26,8 @@
     };
 
     var getSize = function (args) {
-        var imageSrc = $(args.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
-
         var image = new Image();
-        image.src = imageSrc;
+        image.src = $(args.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
 
         return {
             width: image.width/args.colluns,
