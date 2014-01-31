@@ -3,6 +3,8 @@
 
     var ver = '1.0.0';
 
+    $.fn.jSprite = {};
+
     var debug = function (s) {
         if ($.fn.jSprite.debug) {
             log(s);
@@ -16,14 +18,17 @@
     var pause = function () {
 
     };
+    $.fn.jSprite.pause = pause;
 
     var stop = function () {
 
     };
+    $.fn.jSprite.stop = stop;
 
     var goTo = function () {
 
     };
+    $.fn.jSprite.goTo = goTo;
 
     var getSize = function (args) {
         var image = new Image();
@@ -117,5 +122,5 @@
         play($.extend({}, { element: this }, args));
 
         return this;
-    }
+    };
 }(jQuery));
