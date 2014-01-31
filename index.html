@@ -5,7 +5,7 @@
 	<title>Document</title>
 
 	<style>
-		.animation, .teste {
+		.animation {
 			background: url(sprite.png) no-repeat;
 			width: 330px;
 			height: 500px;
@@ -16,22 +16,11 @@
 <body>
 	<div class="animation"></div>
 
-	<div class="teste"></div>
-
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="jsprite.js"></script>
 
 	<script>
 		$('.animation').jSprite({
-	        getSize: true,
-	        colluns: 9,
-	        lines: 8,
-	        total: 65,
-	        timeTransition: 30,
-	        timeReload: 1,
-	    });
-
-	    $('.teste').jSprite({
 	        getSize: true,
 	        colluns: 9,
 	        lines: 8,
