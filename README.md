@@ -11,8 +11,6 @@ Three quick start options are available:
 
 ## Usage
 
-Create an attribute called `data-repo`:
-
 Include jQuery:
 
 ```html
