@@ -46,6 +46,10 @@ We do care about it.
 --- | --- | --- | --- | --- |
 IE 7+ ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 
+## Contributing
+
+Check [CONTRIBUTING.md](https://github.com/marginelson/jSprite/blob/master/CONTRIBUTING.md)
+
 ## License
 
 [MIT License](http://nelsonfrancisco.mit-license.org/) © Nelson Francisco
