@@ -22,7 +22,7 @@ Include jQuery:
 Include plugin JS:
 
 ```html
-<script src="jsprite.js"></script>
+<script src="jquery.jSprite.js"></script>
 ```
 
 ## Options
