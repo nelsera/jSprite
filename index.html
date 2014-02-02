@@ -11,10 +11,18 @@
 			height: 500px;
 			display: inline-block;
 		}
+		.animation2 {
+			background: url(sprite.png) no-repeat;
+			width: 330px;
+			height: 500px;
+			display: inline-block;
+		}
 	</style>
 </head>
 <body>
 	<div class="animation"></div>
+
+	<div class="animation2"></div>
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="jquery.jSprite.js"></script>
@@ -22,12 +30,21 @@
 	<script>
 		$('.animation').jSprite({
 	        getSize: true,
-	        colluns: 9,
+	        columns: 9,
 	        lines: 8,
 	        total: 65,
 	        timeTransition: 30,
 	        timeReload: 1
 	    });
+		$('.animation2').jSprite({
+	        getSize: true,
+	        columns: 9,
+	        lines: 8,
+	        total: 65,
+	        timeTransition: 90,
+	        timeReload: 3
+	    });
+
 	</script>
 </body>
 </html>
