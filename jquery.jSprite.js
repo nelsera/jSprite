@@ -40,48 +40,47 @@
         };
     };
 
-    var animation = function (sprite, settings, callback) {
-        var element                 = settings.element,
-            timeTransition          = settings.timeTransition,
-            timeReload              = settings.timeReload,
-            spriteBgWidth           = settings.width,
-            spriteBgHeight          = settings.height,
-            spriteBgLine            = settings.columns,
-            spriteBgTotal           = settings.total,
-            line                    = 0;
+    var next = function (sprite, settings, callback) {
+        sprite.position++;
 
+        var line = (sprite.position % settings.columns) / 100;
+
+        sprite.left = sprite.left + settings.width;
+
+        if (line === 0) {
+           sprite.top = sprite.top + settings.height;
+           sprite.left = 0;
+        }
+
+        settings.element.css({'background-position': '-' + sprite.left + 'px -' + sprite.top + 'px'});
+
+        sprite.transitionTimeout = setTimeout(function() {
+            animation(sprite, settings, callback);
+        }, settings.timeTransition);
+    };
+
+    var restart = function (sprite, settings, callback) {
+        sprite.reloadTimeout = setTimeout(function() {
+            sprite.position = 0;
+            sprite.top = 0;
+            sprite.left = 0;
+
+            settings.element.css({'background-position': '0 0'});
+
+            animation(sprite, settings, callback);
+        }, settings.timeReload * 1000);
+    };
+
+    var animation = function (sprite, settings, callback) {
         clearTimeout(sprite.transitionTimeout);
         clearTimeout(sprite.reloadTimeout);
 
-        if (element.length && element.is(':visible')) {
-            if (sprite.position < (spriteBgTotal - 1)) {
-                sprite.position++;
-
-                line = (sprite.position % spriteBgLine) / 100;
-
-                sprite.left = sprite.left + spriteBgWidth;
-
-                if (line === 0) {
-                   sprite.top = sprite.top + spriteBgHeight;
-                   sprite.left = 0;
-                }
-
-                element.css({'background-position': '-' + sprite.left + 'px -' + sprite.top + 'px'});
-
-                sprite.transitionTimeout = setTimeout(function() {
-                    animation(sprite, settings, callback);
-                }, timeTransition);
+        if (settings.element.length && settings.element.is(':visible')) {
+            if (sprite.position < (settings.total - 1)) {
+                next(sprite, settings, callback);
             } else {
-                if (timeReload) {
-                    sprite.reloadTimeout = setTimeout(function() {
-                        sprite.position = 0;
-                        sprite.top = 0;
-                        sprite.left = 0;
-
-                        element.css({'background-position': '0 0'});
-
-                        animation(sprite, settings, callback);
-                    }, timeReload * 1000);
+                if (settings.timeReload) {
+                    restart(sprite, settings, callback);
                 }
             }
         }
@@ -96,7 +95,8 @@
             width           : 200,
             height          : 200,
             timeTransition  : 50, //milsec
-            timeReload      : 3 //seconds
+            timeReload      : 3, //seconds
+            reverse: false
         },
         sprite = {
             top                 : 0,
