@@ -58,9 +58,6 @@
         clearTimeout(spriteTransitionTimeout);
         clearTimeout(spriteReloadTimeout);
 
-        timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
-        timeReload = (typeof timeReload !== "undefined") && (timeReload !== 0) ? timeReload : 0;
-
         if (element.length && element.is(':visible')) {
             if (spriteItemPosition < (spriteBgTotal - 1)) {
                 spriteItemPosition++;
@@ -100,8 +97,8 @@
         spriteTimeReload            = 3, //segundos
         spriteHover                 = false;
 
-        args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
-        args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload !== 0) ? args.timeReload : 0;
+        args.timeTransition = (args.timeTransition) ? args.timeTransition : spriteTimeTransition;
+        args.timeReload = (args.timeReload) ? args.timeReload : 0;
 
         if (args.getSize) {
             args = $.extend({}, getSize(args), args);
