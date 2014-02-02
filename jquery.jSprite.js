@@ -1,7 +1,7 @@
 ;(function($, undefined) {
     'use strict';
 
-    var ver = '1.1.0';
+    var ver = '1.2.1';
 
     $.fn.jSprite = {};
 
