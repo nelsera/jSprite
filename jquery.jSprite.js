@@ -40,15 +40,7 @@
         };
     };
 
-    var sprite = {
-            top         : 0,
-            left        : 0,
-            position    : 0
-        },
-        spriteReloadTimeout     = 0,
-        spriteTransitionTimeout = 0;
-
-    var animation = function (settings, callback) {
+    var animation = function (sprite, settings, callback) {
         var element                 = settings.element,
             timeTransition          = settings.timeTransition,
             timeReload              = settings.timeReload,
@@ -58,8 +50,8 @@
             spriteBgTotal           = settings.total,
             line                    = 0;
 
-        clearTimeout(spriteTransitionTimeout);
-        clearTimeout(spriteReloadTimeout);
+        clearTimeout(sprite.transitionTimeout);
+        clearTimeout(sprite.reloadTimeout);
 
         if (element.length && element.is(':visible')) {
             if (sprite.position < (spriteBgTotal - 1)) {
@@ -76,19 +68,19 @@
 
                 element.css({'background-position': '-' + sprite.left + 'px -' + sprite.top + 'px'});
 
-                spriteTransitionTimeout = setTimeout(function() {
-                    animation(settings, callback);
+                sprite.transitionTimeout = setTimeout(function() {
+                    animation(sprite, settings, callback);
                 }, timeTransition);
             } else {
                 if (timeReload) {
-                    spriteReloadTimeout = setTimeout(function() {
+                    sprite.reloadTimeout = setTimeout(function() {
                         sprite.position = 0;
                         sprite.top = 0;
                         sprite.left = 0;
 
                         element.css({'background-position': '0 0'});
 
-                        animation(settings, callback);
+                        animation(sprite, settings, callback);
                     }, timeReload * 1000);
                 }
             }
@@ -106,6 +98,13 @@
             timeTransition  : 50, //milsec
             timeReload      : 3 //seconds
         },
+        sprite = {
+            top                 : 0,
+            left                : 0,
+            position            : 0,
+            reloadTimeout       : 0,
+            transitionTimeout   : 0
+        },
         // Merge defaults and options, without modifying defaults
         settings = $.extend( {}, defaults, options );
 
@@ -113,11 +112,11 @@
             settings = $.extend({}, settings, getSize(settings));
         }
 
-        animation(settings, callback);
+        animation(sprite, settings, callback);
     };
 
     $.fn.jSprite = function (options) {
-        play($.extend({}, { element: this }, options));
+        play($.extend({}, options, { element: this }));
 
         return this;
     };
