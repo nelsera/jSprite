@@ -63,7 +63,7 @@
             clearTimeout(spriteReloadTimeout);
 
             timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
-            timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
+            timeReload = (typeof timeReload !== "undefined") && (timeReload !== 0) ? timeReload : 0;
 
             var spriteBgWidth   = width,
                 spriteBgHeight  = height,
@@ -78,7 +78,7 @@
 
                     spriteItemLeft = spriteItemLeft + spriteBgWidth;
 
-                    if (line == 0) {
+                    if (line === 0) {
                        spriteItemTop = spriteItemTop + spriteBgHeight;
                        spriteItemLeft = 0;
                     }
@@ -104,15 +104,15 @@
             }
         }
 
-        spriteItemPosition  = 0,
-        spriteItemTop       = 0,
+        spriteItemPosition  = 0;
+        spriteItemTop       = 0;
         spriteItemLeft      = 0;
 
         args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
-        args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload != 0) ? args.timeReload : 0;
+        args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload !== 0) ? args.timeReload : 0;
 
         if (args.getSize) {
-            var args = $.extend({}, getSize(args), args);
+            args = $.extend({}, getSize(args), args);
         }
 
         animation(args, callback);
