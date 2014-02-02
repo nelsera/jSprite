@@ -1,7 +1,7 @@
 ;(function($, undefined) {
     'use strict';
 
-    var ver = '1.0.0';
+    var ver = '1.1.0';
 
     $.fn.jSprite = {};
 
@@ -55,7 +55,8 @@
             spriteBgWidth           = settings.width,
             spriteBgHeight          = settings.height,
             spriteBgLine            = settings.columns,
-            spriteBgTotal           = settings.total;
+            spriteBgTotal           = settings.total,
+            line                    = 0;
 
         clearTimeout(spriteTransitionTimeout);
         clearTimeout(spriteReloadTimeout);
@@ -64,7 +65,7 @@
             if (sprite.position < (spriteBgTotal - 1)) {
                 sprite.position++;
 
-                var line = (sprite.position % spriteBgLine) / 100;
+                line = (sprite.position % spriteBgLine) / 100;
 
                 sprite.left = sprite.left + spriteBgWidth;
 
@@ -104,10 +105,9 @@
             height          : 200,
             timeTransition  : 50, //milsec
             timeReload      : 3 //seconds
-        };
-
+        },
         // Merge defaults and options, without modifying defaults
-        var settings = $.extend( {}, defaults, options );
+        settings = $.extend( {}, defaults, options );
 
         if (options.getSize) {
             settings = $.extend({}, settings, getSize(settings));
