@@ -48,23 +48,18 @@
 
     var animation = function (args, callback) {
         var element                 = args.element,
-            width                   = args.width,
-            height                  = args.height,
-            columns                 = args.columns,
-            total                   = args.total,
             timeTransition          = args.timeTransition,
-            timeReload              = args.timeReload;
+            timeReload              = args.timeReload,
+            spriteBgWidth           = args.width,
+            spriteBgHeight          = args.height,
+            spriteBgLine            = args.columns,
+            spriteBgTotal           = args.total;
 
         clearTimeout(spriteTransitionTimeout);
         clearTimeout(spriteReloadTimeout);
 
         timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
         timeReload = (typeof timeReload !== "undefined") && (timeReload !== 0) ? timeReload : 0;
-
-        var spriteBgWidth   = width,
-            spriteBgHeight  = height,
-            spriteBgLine    = columns,
-            spriteBgTotal   = total;
 
         if (element.length && element.is(':visible')) {
             if (spriteItemPosition < (spriteBgTotal - 1)) {
