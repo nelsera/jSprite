@@ -30,13 +30,13 @@
     };
     $.fn.jSprite.goTo = goTo;
 
-    var getSize = function (args) {
+    var getSize = function (options) {
         var image = new Image();
-        image.src = $(args.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+        image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
 
         return {
-            width: image.width/args.columns,
-            height: image.height/args.lines
+            width: image.width/options.columns,
+            height: image.height/options.lines
         };
     };
 
@@ -46,14 +46,14 @@
         spriteReloadTimeout         = 0,
         spriteTransitionTimeout     = 0;
 
-    var animation = function (args, callback) {
-        var element                 = args.element,
-            timeTransition          = args.timeTransition,
-            timeReload              = args.timeReload,
-            spriteBgWidth           = args.width,
-            spriteBgHeight          = args.height,
-            spriteBgLine            = args.columns,
-            spriteBgTotal           = args.total;
+    var animation = function (options, callback) {
+        var element                 = options.element,
+            timeTransition          = options.timeTransition,
+            timeReload              = options.timeReload,
+            spriteBgWidth           = options.width,
+            spriteBgHeight          = options.height,
+            spriteBgLine            = options.columns,
+            spriteBgTotal           = options.total;
 
         clearTimeout(spriteTransitionTimeout);
         clearTimeout(spriteReloadTimeout);
@@ -74,7 +74,7 @@
                 element.css({'background-position': '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
 
                 spriteTransitionTimeout = setTimeout(function() {
-                    animation(args, callback);
+                    animation(options, callback);
                 }, timeTransition);
             } else {
                 if (timeReload) {
@@ -85,30 +85,30 @@
 
                         element.css({'background-position': '0 0'});
 
-                        animation(args, callback);
+                        animation(options, callback);
                     }, timeReload * 1000);
                 }
             }
         }
     };
 
-    var play = function (args, callback) {
+    var play = function (options, callback) {
         var spriteTimeTransition    = 50, //milsec
         spriteTimeReload            = 3, //segundos
         spriteHover                 = false;
 
-        args.timeTransition = (args.timeTransition) ? args.timeTransition : spriteTimeTransition;
-        args.timeReload = (args.timeReload) ? args.timeReload : 0;
+        options.timeTransition = (options.timeTransition) ? options.timeTransition : spriteTimeTransition;
+        options.timeReload = (options.timeReload) ? options.timeReload : 0;
 
-        if (args.getSize) {
-            args = $.extend({}, getSize(args), args);
+        if (options.getSize) {
+            options = $.extend({}, getSize(options), options);
         }
 
-        animation(args, callback);
+        animation(options, callback);
     };
 
-    $.fn.jSprite = function (args) {
-        play($.extend({}, { element: this }, args));
+    $.fn.jSprite = function (options) {
+        play($.extend({}, { element: this }, options));
 
         return this;
     };
