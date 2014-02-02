@@ -1,7 +1,7 @@
 ;(function($, undefined) {
     'use strict';
 
-    var ver = '1.0.0';
+    var ver = '1.1.0';
 
     $.fn.jSprite = {};
 
@@ -30,96 +30,94 @@
     };
     $.fn.jSprite.goTo = goTo;
 
-    var getSize = function (args) {
+    var getSize = function (options) {
         var image = new Image();
-        image.src = $(args.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+        image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
 
         return {
-            width: image.width/args.colluns,
-            height: image.height/args.lines
+            width: image.width/options.columns,
+            height: image.height/options.lines
         };
     };
 
-    var play = function (args, callback) {
-        var spriteTimeTransition    = 50, //milsec
-        spriteTimeReload            = 3, //segundos
-        spriteTransitionTimeout,
-        spriteReloadTimeout,
-        spriteItemPosition          = 0,
-        spriteItemTop               = 0,
-        spriteItemLeft              = 0,
-        spriteHover                 = false;
+    var sprite = {
+            top         : 0,
+            left        : 0,
+            position    : 0
+        },
+        spriteReloadTimeout     = 0,
+        spriteTransitionTimeout = 0;
 
-        function animation (args, callback) {
-            var element                 = args.element,
-                width                   = args.width,
-                height                  = args.height,
-                colluns                 = args.colluns,
-                total                   = args.total,
-                timeTransition          = args.timeTransition,
-                timeReload              = args.timeReload;
+    var animation = function (settings, callback) {
+        var element                 = settings.element,
+            timeTransition          = settings.timeTransition,
+            timeReload              = settings.timeReload,
+            spriteBgWidth           = settings.width,
+            spriteBgHeight          = settings.height,
+            spriteBgLine            = settings.columns,
+            spriteBgTotal           = settings.total,
+            line                    = 0;
 
-            clearTimeout(spriteTransitionTimeout);
-            clearTimeout(spriteReloadTimeout);
+        clearTimeout(spriteTransitionTimeout);
+        clearTimeout(spriteReloadTimeout);
 
-            timeTransition = (typeof timeTransition !== "undefined") ? timeTransition : spriteTimeTransition;
-            timeReload = (typeof timeReload !== "undefined") && (timeReload != 0) ? timeReload : 0;
+        if (element.length && element.is(':visible')) {
+            if (sprite.position < (spriteBgTotal - 1)) {
+                sprite.position++;
 
-            var spriteBgWidth   = width,
-                spriteBgHeight  = height,
-                spriteBgLine    = colluns,
-                spriteBgTotal   = total;
+                line = (sprite.position % spriteBgLine) / 100;
 
-            if (element.length && element.is(':visible')) {
-                if (spriteItemPosition < (spriteBgTotal - 1)) {
-                    spriteItemPosition++;
+                sprite.left = sprite.left + spriteBgWidth;
 
-                    var line = (spriteItemPosition % spriteBgLine) / 100;
+                if (line === 0) {
+                   sprite.top = sprite.top + spriteBgHeight;
+                   sprite.left = 0;
+                }
 
-                    spriteItemLeft = spriteItemLeft + spriteBgWidth;
+                element.css({'background-position': '-' + sprite.left + 'px -' + sprite.top + 'px'});
 
-                    if (line == 0) {
-                       spriteItemTop = spriteItemTop + spriteBgHeight;
-                       spriteItemLeft = 0;
-                    }
+                spriteTransitionTimeout = setTimeout(function() {
+                    animation(settings, callback);
+                }, timeTransition);
+            } else {
+                if (timeReload) {
+                    spriteReloadTimeout = setTimeout(function() {
+                        sprite.position = 0;
+                        sprite.top = 0;
+                        sprite.left = 0;
 
-                    element.css({'background-position': '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
+                        element.css({'background-position': '0 0'});
 
-                    spriteTransitionTimeout = setTimeout(function() {
-                        animation(args, callback);
-                    }, timeTransition);
-                } else {
-                    if (timeReload) {
-                        spriteReloadTimeout = setTimeout(function() {
-                            spriteItemPosition = 0;
-                            spriteItemTop = 0;
-                            spriteItemLeft = 0;
-
-                            element.css({'background-position': '0 0'});
-
-                            animation(args, callback);
-                        }, timeReload * 1000);
-                    }
+                        animation(settings, callback);
+                    }, timeReload * 1000);
                 }
             }
         }
-
-        spriteItemPosition  = 0,
-        spriteItemTop       = 0,
-        spriteItemLeft      = 0;
-
-        args.timeTransition = (typeof args.timeTransition !== "undefined") ? args.timeTransition : spriteTimeTransition;
-        args.timeReload = (typeof args.timeReload !== "undefined") && (args.timeReload != 0) ? args.timeReload : 0;
-
-        if (args.getSize) {
-            var args = $.extend({}, getSize(args), args);
-        }
-
-        animation(args, callback);
     };
 
-    $.fn.jSprite = function (args) {
-        play($.extend({}, { element: this }, args));
+    var play = function (options, callback) {
+        var defaults = {
+            getSize         : false,
+            columns         : 3,
+            lines           : 1,
+            total           : 3,
+            width           : 200,
+            height          : 200,
+            timeTransition  : 50, //milsec
+            timeReload      : 3 //seconds
+        },
+        // Merge defaults and options, without modifying defaults
+        settings = $.extend( {}, defaults, options );
+
+        if (options.getSize) {
+            settings = $.extend({}, settings, getSize(settings));
+        }
+
+        animation(settings, callback);
+    };
+
+    $.fn.jSprite = function (options) {
+        play($.extend({}, { element: this }, options));
 
         return this;
     };
