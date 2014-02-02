@@ -35,7 +35,7 @@
         image.src = $(args.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
 
         return {
-            width: image.width/args.colluns,
+            width: image.width/args.columns,
             height: image.height/args.lines
         };
     };
@@ -50,7 +50,7 @@
         var element                 = args.element,
             width                   = args.width,
             height                  = args.height,
-            colluns                 = args.colluns,
+            columns                 = args.columns,
             total                   = args.total,
             timeTransition          = args.timeTransition,
             timeReload              = args.timeReload;
@@ -63,7 +63,7 @@
 
         var spriteBgWidth   = width,
             spriteBgHeight  = height,
-            spriteBgLine    = colluns,
+            spriteBgLine    = columns,
             spriteBgTotal   = total;
 
         if (element.length && element.is(':visible')) {
