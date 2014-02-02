@@ -40,52 +40,54 @@
         };
     };
 
-    var spriteItemTop               = 0,
-        spriteItemLeft              = 0,
-        spriteItemPosition          = 0,
-        spriteReloadTimeout         = 0,
-        spriteTransitionTimeout     = 0;
+    var sprite = {
+            top         : 0,
+            left        : 0,
+            position    : 0
+        },
+        spriteReloadTimeout     = 0,
+        spriteTransitionTimeout = 0;
 
-    var animation = function (options, callback) {
-        var element                 = options.element,
-            timeTransition          = options.timeTransition,
-            timeReload              = options.timeReload,
-            spriteBgWidth           = options.width,
-            spriteBgHeight          = options.height,
-            spriteBgLine            = options.columns,
-            spriteBgTotal           = options.total;
+    var animation = function (settings, callback) {
+        var element                 = settings.element,
+            timeTransition          = settings.timeTransition,
+            timeReload              = settings.timeReload,
+            spriteBgWidth           = settings.width,
+            spriteBgHeight          = settings.height,
+            spriteBgLine            = settings.columns,
+            spriteBgTotal           = settings.total;
 
         clearTimeout(spriteTransitionTimeout);
         clearTimeout(spriteReloadTimeout);
 
         if (element.length && element.is(':visible')) {
-            if (spriteItemPosition < (spriteBgTotal - 1)) {
-                spriteItemPosition++;
+            if (sprite.position < (spriteBgTotal - 1)) {
+                sprite.position++;
 
-                var line = (spriteItemPosition % spriteBgLine) / 100;
+                var line = (sprite.position % spriteBgLine) / 100;
 
-                spriteItemLeft = spriteItemLeft + spriteBgWidth;
+                sprite.left = sprite.left + spriteBgWidth;
 
                 if (line === 0) {
-                   spriteItemTop = spriteItemTop + spriteBgHeight;
-                   spriteItemLeft = 0;
+                   sprite.top = sprite.top + spriteBgHeight;
+                   sprite.left = 0;
                 }
 
-                element.css({'background-position': '-' + spriteItemLeft + 'px -' + spriteItemTop + 'px'});
+                element.css({'background-position': '-' + sprite.left + 'px -' + sprite.top + 'px'});
 
                 spriteTransitionTimeout = setTimeout(function() {
-                    animation(options, callback);
+                    animation(settings, callback);
                 }, timeTransition);
             } else {
                 if (timeReload) {
                     spriteReloadTimeout = setTimeout(function() {
-                        spriteItemPosition = 0;
-                        spriteItemTop = 0;
-                        spriteItemLeft = 0;
+                        sprite.position = 0;
+                        sprite.top = 0;
+                        sprite.left = 0;
 
                         element.css({'background-position': '0 0'});
 
-                        animation(options, callback);
+                        animation(settings, callback);
                     }, timeReload * 1000);
                 }
             }
@@ -93,18 +95,20 @@
     };
 
     var play = function (options, callback) {
-        var spriteTimeTransition    = 50, //milsec
-        spriteTimeReload            = 3, //segundos
-        spriteHover                 = false;
+        var defaults = {
+            timeTransition  : (options.timeTransition) ? options.timeTransition : 50, //milsec
+            timeReload      : (options.timeReload) ? options.timeReload : 3, //segundos
+            hover           : false
+        };
 
-        options.timeTransition = (options.timeTransition) ? options.timeTransition : spriteTimeTransition;
-        options.timeReload = (options.timeReload) ? options.timeReload : 0;
+        // Merge defaults and options, without modifying defaults
+        var settings = $.extend( {}, defaults, options );
 
         if (options.getSize) {
-            options = $.extend({}, getSize(options), options);
+            settings = $.extend({}, getSize(settings), settings);
         }
 
-        animation(options, callback);
+        animation(settings, callback);
     };
 
     $.fn.jSprite = function (options) {
