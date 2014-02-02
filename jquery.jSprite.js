@@ -96,15 +96,21 @@
 
     var play = function (options, callback) {
         var defaults = {
-            timeTransition  : (options.timeTransition) ? options.timeTransition : 50, //milsec
-            timeReload      : (options.timeReload) ? options.timeReload : 3 //seconds
+            getSize         : false,
+            columns         : 3,
+            lines           : 1,
+            total           : 3,
+            width           : 200,
+            height          : 200,
+            timeTransition  : 50, //milsec
+            timeReload      : 3 //seconds
         };
 
         // Merge defaults and options, without modifying defaults
         var settings = $.extend( {}, defaults, options );
 
         if (options.getSize) {
-            settings = $.extend({}, getSize(settings), settings);
+            settings = $.extend({}, settings, getSize(settings));
         }
 
         animation(settings, callback);
