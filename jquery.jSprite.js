@@ -97,8 +97,7 @@
     var play = function (options, callback) {
         var defaults = {
             timeTransition  : (options.timeTransition) ? options.timeTransition : 50, //milsec
-            timeReload      : (options.timeReload) ? options.timeReload : 3, //segundos
-            hover           : false
+            timeReload      : (options.timeReload) ? options.timeReload : 3 //seconds
         };
 
         // Merge defaults and options, without modifying defaults
