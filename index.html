@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>jSprite</title>
 
 	<style>
 		.animation {
-			background: url(sprite.png) no-repeat;
+			background: url(img/sprite.png) no-repeat;
 			width: 330px;
 			height: 500px;
 			display: inline-block;
 		}
 		.animation2 {
-			background: url(sprite.png) no-repeat;
+			background: url(img/sprite.png) no-repeat;
 			width: 330px;
 			height: 500px;
 			display: inline-block;
@@ -34,14 +34,14 @@
 <body>
 	<div class="animation"></div>
 
-	<div class="clock"></div>
+	<!-- <div class="clock"></div>
 
 	<div class="backtothefuture"></div>
 
-	<div class="animation2"></div>
+	<div class="animation2"></div> -->
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="jquery.jSprite.js"></script>
+	<script src="src/jquery.jSprite.js"></script>
 
 	<script>
 		$('.animation').jSprite({
@@ -52,33 +52,33 @@
 	        timeTransition: 30,
 	        timeReload: 1
 	    });
-		$('.animation2').jSprite({
-	        getSize: true,
-	        columns: 9,
-	        lines: 8,
-	        total: 65,
-	        timeTransition: 90,
-	        timeReload: 3
-	    });
-		$('.clock').jSprite({
-	        width: 128,
-	        height: 178,
-	        columns: 1,
-	        lines: 18,
-	        total: 18,
-	        timeTransition: 90,
-	        timeReload: 3
-	    });
-		$('.backtothefuture').jSprite({
-	        width: 128,
-	        height: 178,
-	        columns: 1,
-	        lines: 18,
-	        total: 18,
-	        timeTransition: 90,
-	        timeReload: 0,
-	        reverse: true
-	    });
+		// $('.animation2').jSprite({
+	 //        getSize: true,
+	 //        columns: 9,
+	 //        lines: 8,
+	 //        total: 65,
+	 //        timeTransition: 90,
+	 //        timeReload: 3
+	 //    });
+		// $('.clock').jSprite({
+	 //        width: 128,
+	 //        height: 178,
+	 //        columns: 1,
+	 //        lines: 18,
+	 //        total: 18,
+	 //        timeTransition: 90,
+	 //        timeReload: 3
+	 //    });
+		// $('.backtothefuture').jSprite({
+	 //        width: 128,
+	 //        height: 178,
+	 //        columns: 1,
+	 //        lines: 18,
+	 //        total: 18,
+	 //        timeTransition: 90,
+	 //        timeReload: 0,
+	 //        reverse: true
+	 //    });
 
 	</script>
 </body>
