@@ -95,7 +95,6 @@
             width           : 200,
             height          : 200,
             timeTransition  : 50, //milsec
-            timeReload      : 3, //seconds
             reverse: false
         },
         sprite = {
@@ -105,11 +104,16 @@
             reloadTimeout       : 0,
             transitionTimeout   : 0
         },
+
         // Merge defaults and options, without modifying defaults
         settings = $.extend( {}, defaults, options );
 
         if (options.getSize) {
             settings = $.extend({}, settings, getSize(settings));
+        }
+
+        if (!options.timeReload && options.timeReload !== 0) {
+            settings.timeReload = 0.01;
         }
 
         animation(sprite, settings, callback);
