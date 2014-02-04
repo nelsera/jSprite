@@ -86,37 +86,37 @@
         }
     };
 
-    var play = function (options, callback) {
-        var defaults = {
-            getSize         : false,
-            columns         : 3,
-            lines           : 1,
-            total           : 3,
-            width           : 200,
-            height          : 200,
-            timeTransition  : 50, //milsec
-            timeReload      : 3, //seconds
-            reverse: false
-        },
-        sprite = {
+    var play = function (settings, callback) {
+        var sprite = {
             top                 : 0,
             left                : 0,
             position            : 0,
             reloadTimeout       : 0,
             transitionTimeout   : 0
-        },
-        // Merge defaults and options, without modifying defaults
-        settings = $.extend( {}, defaults, options );
+        };
 
-        if (options.getSize) {
+        if (settings.getSize) {
             settings = $.extend({}, settings, getSize(settings));
         }
 
         animation(sprite, settings, callback);
     };
 
+    var defaults = {
+        getSize         : false,
+        columns         : 3,
+        lines           : 1,
+        total           : 3,
+        width           : 200,
+        height          : 200,
+        timeTransition  : 50, //milsec
+        timeReload      : 3, //seconds
+        reverse: false
+    };
+
     $.fn.jSprite = function (options) {
-        play($.extend({}, options, { element: this }));
+        // Merge defaults and options, without modifying defaults
+        play($.extend({}, defaults, options, { element: this }));
 
         return this;
     };
