@@ -103,15 +103,14 @@
     };
 
     var defaults = {
-        getSize         : false,
-        columns         : 3,
-        lines           : 1,
-        total           : 3,
-        width           : 200,
-        height          : 200,
-        timeTransition  : 50, //milsec
-        timeReload      : 3, //seconds
-        reverse: false
+        columns         : 3,        // columns to use in the sprite
+        lines           : 1,        // lines to use in the sprite
+        total           : 3,        // total frames to use in the sprite
+        width           : 200,      // px, width of each frame in the sprite
+        height          : 200,      // px, height of each frame in the sprite
+        getSize         : false,    // if true will calculate width and height (according to columns and lines) and overriding their values
+        timeTransition  : 50,       // milliseconds, time between each frame
+        timeReload      : 3         // seconds, time between the end and a new beginning
     };
 
     $.fn.jSprite = function (options) {
