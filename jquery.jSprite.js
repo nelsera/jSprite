@@ -42,7 +42,6 @@
 
     var next = function (sprite, settings, callback) {
         sprite.position++;
-
         var line = (sprite.position % settings.columns) / 100;
 
         sprite.left = sprite.left + settings.width;
@@ -68,7 +67,7 @@
             settings.element.css({'background-position': '0 0'});
 
             animation(sprite, settings, callback);
-        }, settings.timeReload * 1000);
+        }, settings.timeReload);
     };
 
     var animation = function (sprite, settings, callback) {
@@ -79,7 +78,7 @@
             if (sprite.position < (settings.total - 1)) {
                 next(sprite, settings, callback);
             } else {
-                if (settings.timeReload) {
+                if (settings.timeReload !== false) {
                     restart(sprite, settings, callback);
                 }
             }
@@ -90,9 +89,9 @@
         var sprite = {
             top                 : 0,
             left                : 0,
-            position            : 0,
-            reloadTimeout       : 0,
-            transitionTimeout   : 0
+            position            : 0,    // between 0 and settings.total
+            reloadTimeout       : 0,    // id of timeout used to restart animation
+            transitionTimeout   : 0     // id of timeout used to next frame animation
         };
 
         if (settings.getSize) {
@@ -110,7 +109,8 @@
         height          : 200,      // px, height of each frame in the sprite
         getSize         : false,    // if true will calculate width and height (according to columns and lines) and overriding their values
         timeTransition  : 50,       // milliseconds, time between each frame
-        timeReload      : 3         // seconds, time between the end and a new beginning
+        timeReload      : 50        // true, false or milliseconds, time between the end and a new beginning,
+                                    //    if false will not restart, if true will use timeTransition for a smooth restart
     };
 
     $.fn.jSprite = function (options) {
