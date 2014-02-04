@@ -79,6 +79,11 @@
             if (sprite.position < (settings.total - 1)) {
                 next(sprite, settings, callback);
             } else {
+                // callback on finish animation
+                if (settings.onDone) {
+                    settings.onDone();
+                }
+
                 if (settings.timeReload) {
                     restart(sprite, settings, callback);
                 }

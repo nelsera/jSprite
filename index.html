@@ -49,7 +49,10 @@
 	        lines: 8,
 	        total: 65,
 	        timeTransition: 30, //milsec
-	        timeReload: 2 //seconds
+	        timeReload: 0, //seconds
+	        onDone: function () {
+        		console.log('callback');
+	        }
 	    });
 		$('.animation2').jSprite({
 	        columns: 9,
