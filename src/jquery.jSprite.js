@@ -88,7 +88,7 @@
 
     var play = function (options, callback) {
         var defaults = {
-            getSize         : false,
+            getSize         : true,
             columns         : 3,
             lines           : 1,
             total           : 3,
@@ -108,7 +108,7 @@
         // Merge defaults and options, without modifying defaults
         settings = $.extend( {}, defaults, options );
 
-        if (options.getSize) {
+        if (settings.getSize) {
             settings = $.extend({}, settings, getSize(settings));
         }
 

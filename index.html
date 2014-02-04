@@ -45,15 +45,13 @@
 
 	<script>
 		$('.animation').jSprite({
-	        getSize: true,
 	        columns: 9,
 	        lines: 8,
 	        total: 65,
 	        timeTransition: 30, //milsec
-	        timeReload: 0 //seconds
+	        timeReload: 2 //seconds
 	    });
 		$('.animation2').jSprite({
-	        getSize: true,
 	        columns: 9,
 	        lines: 8,
 	        total: 65,
@@ -61,6 +59,7 @@
 	        timeReload: 3 //seconds
 	    });
 		$('.clock').jSprite({
+	        getSize: false,
 	        width: 128,
 	        height: 178,
 	        columns: 1,
@@ -70,6 +69,7 @@
 	        timeReload: 3 //seconds
 	    });
 		$('.backtothefuture').jSprite({
+	        getSize: false,
 	        width: 128,
 	        height: 178,
 	        columns: 1,
