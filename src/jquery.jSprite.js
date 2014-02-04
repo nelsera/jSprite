@@ -117,7 +117,7 @@
             settings = $.extend({}, settings, getSize(settings));
         }
 
-        if (!options.timeReload && options.timeReload !== 0) {
+        if (!settings.timeReload && settings.timeReload !== 0) {
             settings.timeReload = 0.01;
         }
 
