@@ -78,6 +78,11 @@
             if (sprite.position < (settings.total - 1)) {
                 next(sprite, settings, callback);
             } else {
+                // callback on finish animation
+                if (settings.onDone) {
+                    settings.onDone();
+                }
+
                 if (settings.timeReload !== false) {
                     restart(sprite, settings, callback);
                 }
@@ -96,6 +101,10 @@
 
         if (settings.getSize) {
             settings = $.extend({}, settings, getSize(settings));
+        }
+
+        if (!settings.timeReload && settings.timeReload !== 0) {
+            settings.timeReload = 0.01;
         }
 
         animation(sprite, settings, callback);
