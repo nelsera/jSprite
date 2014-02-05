@@ -59,6 +59,8 @@
     };
 
     var restart = function (sprite, settings, callback) {
+        var delay = (settings.timeReload === true) ? settings.timeTransition : settings.timeReload;
+
         sprite.reloadTimeout = setTimeout(function() {
             sprite.position = 0;
             sprite.top = 0;
@@ -67,7 +69,7 @@
             settings.element.css({'background-position': '0 0'});
 
             animation(sprite, settings, callback);
-        }, settings.timeReload);
+        }, delay);
     };
 
     var animation = function (sprite, settings, callback) {
@@ -103,10 +105,6 @@
             settings = $.extend({}, settings, getSize(settings));
         }
 
-        if (!settings.timeReload && settings.timeReload !== 0) {
-            settings.timeReload = 0.01;
-        }
-
         animation(sprite, settings, callback);
     };
 
@@ -118,7 +116,7 @@
         height          : 200,      // px, height of each frame in the sprite
         getSize         : false,    // if true will calculate width and height (according to columns and lines) and overriding their values
         timeTransition  : 50,       // milliseconds, time between each frame
-        timeReload      : 50        // true, false or milliseconds, time between the end and a new beginning,
+        timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,
                                     //    if false will not restart, if true will use timeTransition for a smooth restart
     };
 
