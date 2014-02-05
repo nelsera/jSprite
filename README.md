@@ -29,12 +29,11 @@ Here's a list of available settings. Example:
 
 ```javascript
 $(".animation").jSprite({
-    getSize: true,
     colluns: 9,
     lines: 8,
     total: 65,
     timeTransition: 30,
-    timeReload: 1
+    timeReload: 20
 });
 ```
 
