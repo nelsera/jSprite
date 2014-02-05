@@ -31,34 +31,34 @@
     $.fn.jSprite.goTo = goTo;
 
     var getSize = function (options) {
-		var width = options.width ? options.width : $(options.element).innerWidth();
-		var height = options.height ? options.height : $(options.element).innerHeight();
+        var width = options.width ? options.width : $(options.element).innerWidth();
+        var height = options.height ? options.height : $(options.element).innerHeight();
 
         return {
             width: width,
             height: height
         };
     };
-	
-	var getGrid = function(options, callback){
-		var image = new Image();
+    
+    var getGrid = function(options, callback){
+        var image = new Image();
         
             callback = callback || function(){};
             
             image.onload = function(){
                 var columns = options.columns ? options.columns : Math.round(image.width / options.width);
-		        var lines = options.lines ? options.lines : Math.round(image.height / options.height);
+                var lines = options.lines ? options.lines : Math.round(image.height / options.height);
 
-		        callback({
-			        columns: columns,
-			        lines: lines
-		        });
+                callback({
+                    columns: columns,
+                    lines: lines
+                });
             }
 
-			image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+            image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
 
-		return callback;
-	}
+        return callback;
+    }
 
     var next = function (sprite, settings, callback) {
         sprite.position++;
@@ -131,25 +131,25 @@
         if (!settings.width || !settings.height) {
             settings = $.extend({}, settings, getSize(settings));
         }
-		
+        
         if (!settings.columns || !settings.lines) {
             getGrid(settings, function(result){
                 settings = $.extend({}, settings, result);
                 start();
             });
-		}else{
+        }else{
             start();
         }
     };
 
     var defaults = {
-		// if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
+        // if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
         columns         : 0,        // columns to use in the sprite
         lines           : 0,        // lines to use in the sprite
         // if size 0, will calculate width and height (according to element size) and overriding their values
         width           : 0,      // px, width of each frame in the sprite
         height          : 0,      // px, height of each frame in the sprite
-		
+        
         total           : 0,        // total frames to use in the sprite
         timeTransition  : 50,       // milliseconds, time between each frame
         timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,

@@ -1,120 +1,120 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>jSprite</title>
+    <meta charset="UTF-8">
+    <title>jSprite</title>
 
-	<style>
-		.animation {
-			background: url(img/sprite.png) no-repeat;
-			width: 330px;
-			height: 500px;
-			display: inline-block;
-		}
-		.red {
-			background-color: red;
-		}
-		.animation2 {
-			background: url(img/sprite.png) no-repeat;
-			width: 330px;
-			height: 500px;
-			display: inline-block;
-		}
-		.clock {
-			background: url(img/clock.png) no-repeat;
-			width: 128px;
-			height: 128px;
-			display: inline-block;
-		}
-		.backtothefuture {
-			background: url(img/clock.png) no-repeat;
-			width: 128px;
-			height: 128px;
-			display: inline-block;
-		}
-		.numbers-4x4 {
-			background: url(img/numbers-4x4.png) no-repeat;
-			width: 250px;
-			height: 250px;
-			display: inline-block;
-		}
-		.numbers-1x16 {
-			background: url(img/numbers-1x16.png) no-repeat;
-			width: 200px;
-			height: 100px;
-			display: inline-block;
-		}
-		.numbers-16x1 {
-			background: url(img/numbers-16x1.png) no-repeat;
-			width: 100px;
-			height: 100px;
-			display: inline-block;
-		}
-	</style>
+    <style>
+        .animation {
+            background: url(img/sprite.png) no-repeat;
+            width: 330px;
+            height: 500px;
+            display: inline-block;
+        }
+        .red {
+            background-color: red;
+        }
+        .animation2 {
+            background: url(img/sprite.png) no-repeat;
+            width: 330px;
+            height: 500px;
+            display: inline-block;
+        }
+        .clock {
+            background: url(img/clock.png) no-repeat;
+            width: 128px;
+            height: 128px;
+            display: inline-block;
+        }
+        .backtothefuture {
+            background: url(img/clock.png) no-repeat;
+            width: 128px;
+            height: 128px;
+            display: inline-block;
+        }
+        .numbers-4x4 {
+            background: url(img/numbers-4x4.png) no-repeat;
+            width: 250px;
+            height: 250px;
+            display: inline-block;
+        }
+        .numbers-1x16 {
+            background: url(img/numbers-1x16.png) no-repeat;
+            width: 200px;
+            height: 100px;
+            display: inline-block;
+        }
+        .numbers-16x1 {
+            background: url(img/numbers-16x1.png) no-repeat;
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
 
-	<div class="numbers-4x4"></div>
-	<div class="numbers-1x16"></div>
-	<div class="numbers-16x1"></div>
+    <div class="numbers-4x4"></div>
+    <div class="numbers-1x16"></div>
+    <div class="numbers-16x1"></div>
 
 
-	<div class="clock"></div>
-	<div class="backtothefuture"></div>
+    <div class="clock"></div>
+    <div class="backtothefuture"></div>
 
-	<div class="animation2"></div>
+    <div class="animation2"></div>
 
-	<div class="animation"></div>
-	<div class="animation red"></div>
+    <div class="animation"></div>
+    <div class="animation red"></div>
 
 
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="src/jquery.jSprite.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="src/jquery.jSprite.js"></script>
 
-	<script>
-	    $('.animation').jSprite({
-	        columns: 9,
-	        total: 65,
-	        timeTransition: 30,
-	        timeReload: 30,
-	        onDone: function () {
-        		console.log('callback');
-	        }
-	    });
-	    $('.animation2').jSprite({
-	        lines: 8,
-	        total: 65,
-	        timeTransition: 200,
-	        timeReload: 500
-	    });
-	    $('.clock').jSprite({
-	        height: 178,
-	        total: 18,
-	        timeTransition: 500,
-	        timeReload: 2000
-	    });
-	    $('.backtothefuture').jSprite({
-	        height: 178,
-	        total: 18,
-	        timeTransition: 120,
-	        timeReload: 120
-	    });
-	    $('.numbers-4x4').jSprite({
-	        total: 14,
-	        timeTransition: 400,
-	        timeReload: 2000
-	    });
-	    $('.numbers-1x16').jSprite({
-	        total: 14,
-	        timeTransition: 400,
-	        timeReload: false
-	    });
-	    $('.numbers-16x1').jSprite({
-	        columns: 14,
-	        lines: 1,
-	        total: 14,
-	        timeTransition: 200
-	    });
-	</script>
+    <script>
+        $('.animation').jSprite({
+            columns: 9,
+            total: 65,
+            timeTransition: 30,
+            timeReload: 30,
+            onDone: function () {
+                console.log('callback');
+            }
+        });
+        $('.animation2').jSprite({
+            lines: 8,
+            total: 65,
+            timeTransition: 200,
+            timeReload: 500
+        });
+        $('.clock').jSprite({
+            height: 178,
+            total: 18,
+            timeTransition: 500,
+            timeReload: 2000
+        });
+        $('.backtothefuture').jSprite({
+            height: 178,
+            total: 18,
+            timeTransition: 120,
+            timeReload: 120
+        });
+        $('.numbers-4x4').jSprite({
+            total: 14,
+            timeTransition: 400,
+            timeReload: 2000
+        });
+        $('.numbers-1x16').jSprite({
+            total: 14,
+            timeTransition: 400,
+            timeReload: false
+        });
+        $('.numbers-16x1').jSprite({
+            columns: 14,
+            lines: 1,
+            total: 14,
+            timeTransition: 200
+        });
+    </script>
 </body>
 </html>
