@@ -33,24 +33,34 @@
     var getSize = function (options) {
 		var width = options.width ? options.width : $(options.element).innerWidth();
 		var height = options.height ? options.height : $(options.element).innerHeight();
-		
+
         return {
             width: width,
             height: height
         };
     };
 	
-	var getGrid = function(options){
+	var getGrid = function(options, callback){
 		var image = new Image();
+        
+            callback = callback || function(){};
+            
+            image.onload = function(){
+                var columns = options.columns ? options.columns : Math.round(image.width / options.width);
+		        var lines = options.lines ? options.lines : Math.round(image.height / options.height);
+			
+                console.info(image.width);
+                console.info(image.height);
+
+		        callback({
+			        columns: columns,
+			        lines: lines
+		        });
+            }
+
 			image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
 
-		var columns = options.columns ? options.columns : Math.round(image.width / options.width);
-		var lines = options.lines ? options.lines : Math.round(image.height / options.height);
-			
-		return {
-			columns: columns,
-			lines: lines
-		}
+		return callback;
 	}
 
     var next = function (sprite, settings, callback) {
@@ -114,15 +124,25 @@
             transitionTimeout   : 0     // id of timeout used to next frame animation
         };
 
+        var start = function(){
+            if(!settings.total)
+                settings.total = settings.columns * settings.lines;
+
+            animation(sprite, settings, callback);
+        }
+
         if (!settings.width || !settings.height) {
             settings = $.extend({}, settings, getSize(settings));
         }
 		
         if (!settings.columns || !settings.lines) {
-            settings = $.extend({}, settings, getGrid(settings));
-		}
-
-        animation(sprite, settings, callback);
+            getGrid(settings, function(result){
+                settings = $.extend({}, settings, result);
+                start();
+            });
+		}else{
+            start();
+        }
     };
 
     var defaults = {
@@ -133,15 +153,15 @@
         width           : 0,      // px, width of each frame in the sprite
         height          : 0,      // px, height of each frame in the sprite
 		
-        total           : 3,        // total frames to use in the sprite
+        total           : 0,        // total frames to use in the sprite
         timeTransition  : 50,       // milliseconds, time between each frame
         timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,
                                     //    if false will not restart, if true will use timeTransition for a smooth restart
     };
 
-    $.fn.jSprite = function (options) {
+    $.fn.jSprite = function (options, callback) {
         // Merge defaults and options, without modifying defaults
-        play($.extend({}, defaults, options, { element: this }));
+        play($.extend({}, defaults, options, { element: this }), callback);
 
         return this;
     };
