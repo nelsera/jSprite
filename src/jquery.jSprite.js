@@ -114,7 +114,7 @@
         total           : 3,        // total frames to use in the sprite
         width           : 200,      // px, width of each frame in the sprite
         height          : 200,      // px, height of each frame in the sprite
-        getSize         : false,    // if true will calculate width and height (according to columns and lines) and overriding their values
+        getSize         : true,     // if true will calculate width and height (according to columns and lines) and overriding their values
         timeTransition  : 50,       // milliseconds, time between each frame
         timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,
                                     //    if false will not restart, if true will use timeTransition for a smooth restart
