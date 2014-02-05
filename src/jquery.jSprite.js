@@ -1,7 +1,7 @@
 ;(function($, undefined) {
     'use strict';
 
-    var ver = '1.2.1';
+    var ver = '1.2.2';
 
     $.fn.jSprite = {};
 
@@ -31,14 +31,34 @@
     $.fn.jSprite.goTo = goTo;
 
     var getSize = function (options) {
-        var image = new Image();
-        image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+		var width = options.width ? options.width : $(options.element).innerWidth();
+		var height = options.height ? options.height : $(options.element).innerHeight();
 
         return {
-            width: image.width/options.columns,
-            height: image.height/options.lines
+            width: width,
+            height: height
         };
     };
+	
+	var getGrid = function(options, callback){
+		var image = new Image();
+        
+            callback = callback || function(){};
+            
+            image.onload = function(){
+                var columns = options.columns ? options.columns : Math.round(image.width / options.width);
+		        var lines = options.lines ? options.lines : Math.round(image.height / options.height);
+
+		        callback({
+			        columns: columns,
+			        lines: lines
+		        });
+            }
+
+			image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+
+		return callback;
+	}
 
     var next = function (sprite, settings, callback) {
         sprite.position++;
@@ -101,28 +121,44 @@
             transitionTimeout   : 0     // id of timeout used to next frame animation
         };
 
-        if (settings.getSize) {
-            settings = $.extend({}, settings, getSize(settings));
+        var start = function(){
+            if(!settings.total)
+                settings.total = settings.columns * settings.lines;
+
+            animation(sprite, settings, callback);
         }
 
-        animation(sprite, settings, callback);
+        if (!settings.width || !settings.height) {
+            settings = $.extend({}, settings, getSize(settings));
+        }
+		
+        if (!settings.columns || !settings.lines) {
+            getGrid(settings, function(result){
+                settings = $.extend({}, settings, result);
+                start();
+            });
+		}else{
+            start();
+        }
     };
 
     var defaults = {
-        columns         : 3,        // columns to use in the sprite
-        lines           : 1,        // lines to use in the sprite
-        total           : 3,        // total frames to use in the sprite
-        width           : 200,      // px, width of each frame in the sprite
-        height          : 200,      // px, height of each frame in the sprite
-        getSize         : true,     // if true will calculate width and height (according to columns and lines) and overriding their values
+		// if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
+        columns         : 0,        // columns to use in the sprite
+        lines           : 0,        // lines to use in the sprite
+        // if size 0, will calculate width and height (according to element size) and overriding their values
+        width           : 0,      // px, width of each frame in the sprite
+        height          : 0,      // px, height of each frame in the sprite
+		
+        total           : 0,        // total frames to use in the sprite
         timeTransition  : 50,       // milliseconds, time between each frame
         timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,
                                     //    if false will not restart, if true will use timeTransition for a smooth restart
     };
 
-    $.fn.jSprite = function (options) {
+    $.fn.jSprite = function (options, callback) {
         // Merge defaults and options, without modifying defaults
-        play($.extend({}, defaults, options, { element: this }));
+        play($.extend({}, defaults, options, { element: this }), callback);
 
         return this;
     };
