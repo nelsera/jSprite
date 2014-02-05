@@ -48,9 +48,6 @@
             image.onload = function(){
                 var columns = options.columns ? options.columns : Math.round(image.width / options.width);
 		        var lines = options.lines ? options.lines : Math.round(image.height / options.height);
-			
-                console.info(image.width);
-                console.info(image.height);
 
 		        callback({
 			        columns: columns,
