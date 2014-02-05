@@ -61,12 +61,12 @@
     var restart = function (sprite, settings, callback) {
         var delay = (settings.timeReload === true) ? settings.timeTransition : settings.timeReload;
 
+        settings.element.css({'background-position': '0 0'});
+
         sprite.reloadTimeout = setTimeout(function() {
             sprite.position = 0;
             sprite.top = 0;
             sprite.left = 0;
-
-            settings.element.css({'background-position': '0 0'});
 
             animation(sprite, settings, callback);
         }, delay);
