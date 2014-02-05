@@ -11,6 +11,9 @@
 			height: 500px;
 			display: inline-block;
 		}
+		.red {
+			background-color: red;
+		}
 		.animation2 {
 			background: url(img/sprite.png) no-repeat;
 			width: 330px;
@@ -29,37 +32,64 @@
 			height: 128px;
 			display: inline-block;
 		}
+		.numbers-4x4 {
+			background: url(img/numbers-4x4.png) no-repeat;
+			width: 250px;
+			height: 250px;
+			display: inline-block;
+		}
+		.numbers-1x16 {
+			background: url(img/numbers-1x16.png) no-repeat;
+			width: 200px;
+			height: 100px;
+			display: inline-block;
+		}
+		.numbers-16x1 {
+			background: url(img/numbers-16x1.png) no-repeat;
+			width: 100px;
+			height: 100px;
+			display: inline-block;
+		}
 	</style>
 </head>
 <body>
-	<div class="animation"></div>
+
+	<div class="numbers-4x4"></div>
+	<div class="numbers-1x16"></div>
+	<div class="numbers-16x1"></div>
+
 
 	<div class="clock"></div>
-
 	<div class="backtothefuture"></div>
 
 	<div class="animation2"></div>
+
+	<div class="animation"></div>
+	<div class="animation red"></div>
+
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="src/jquery.jSprite.js"></script>
 
 	<script>
 		$('.animation').jSprite({
+	        getSize: true,
 	        columns: 9,
 	        lines: 8,
 	        total: 65,
-	        timeTransition: 30, //milsec
-	        timeReload: 0, //seconds
+	        timeTransition: 30,
+	        timeReload: 30,
 	        onDone: function () {
         		console.log('callback');
 	        }
 	    });
 		$('.animation2').jSprite({
+	        getSize: true,
 	        columns: 9,
 	        lines: 8,
 	        total: 65,
-	        timeTransition: 30, //milsec
-	        timeReload: 3 //seconds
+	        timeTransition: 200,
+	        timeReload: 500
 	    });
 		$('.clock').jSprite({
 	        getSize: false,
@@ -68,8 +98,8 @@
 	        columns: 1,
 	        lines: 18,
 	        total: 18,
-	        timeTransition: 90, //milsec
-	        timeReload: 3 //seconds
+	        timeTransition: 500,
+	        timeReload: 2000
 	    });
 		$('.backtothefuture').jSprite({
 	        getSize: false,
@@ -78,11 +108,35 @@
 	        columns: 1,
 	        lines: 18,
 	        total: 18,
-	        timeTransition: 90, //milsec
-	        timeReload: 0, //seconds
-	        reverse: true
+	        timeTransition: 120,
+	        timeReload: 120
 	    });
-
+		$('.numbers-4x4').jSprite({
+	        width: 250,
+	        height: 250,
+	        columns: 4,
+	        lines: 4,
+	        total: 14,
+	        timeTransition: 400,
+	        timeReload: 2000
+	    });
+		$('.numbers-1x16').jSprite({
+	        width: 100,
+	        height: 100,
+	        columns: 1,
+	        lines: 14,
+	        total: 14,
+	        timeTransition: 400,
+	        timeReload: false
+	    });
+		$('.numbers-16x1').jSprite({
+	        width: 100,
+	        height: 100,
+	        columns: 14,
+	        lines: 1,
+	        total: 14,
+	        timeTransition: 200
+	    });
 	</script>
 </body>
 </html>
