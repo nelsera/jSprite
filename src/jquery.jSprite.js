@@ -40,12 +40,12 @@
         };
     };
     
-    var getGrid = function(options, callback){
+    var getGrid = function (options, callback){
         var image = new Image();
         
-            callback = callback || function(){};
+            callback = callback || function () {};
             
-            image.onload = function(){
+            image.onload = function () {
                 var columns = options.columns ? options.columns : Math.round(image.width / options.width);
                 var lines = options.lines ? options.lines : Math.round(image.height / options.height);
 
@@ -101,8 +101,8 @@
                 next(sprite, settings, callback);
             } else {
                 // callback on finish animation
-                if (settings.onDone) {
-                    settings.onDone();
+                if (settings.onComplete) {
+                    settings.onComplete();
                 }
 
                 if (settings.timeReload !== false) {
