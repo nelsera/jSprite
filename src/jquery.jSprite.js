@@ -43,19 +43,19 @@
     var getGrid = function (options, callback){
         var image = new Image();
         
-            callback = callback || function () {};
-            
-            image.onload = function () {
-                var columns = options.columns ? options.columns : Math.round(image.width / options.width);
-                var lines = options.lines ? options.lines : Math.round(image.height / options.height);
+        callback = callback || function () {};
+        
+        image.onload = function () {
+            var columns = options.columns ? options.columns : Math.round(image.width / options.width);
+            var lines = options.lines ? options.lines : Math.round(image.height / options.height);
 
-                callback({
-                    columns: columns,
-                    lines: lines
-                });
-            }
+            callback({
+                columns: columns,
+                lines: lines
+            });
+        }
 
-            image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+        image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
 
         return callback;
     }
