@@ -1,165 +1,191 @@
-;(function($, undefined) {
-    'use strict';
+;(function ( $, window, document, undefined ) {
 
-    var ver = '1.2.2';
+    // Create the defaults once
+    var pluginName = "jSprite",
+        ver = "1.3.0",
+        defaults = {
+            // if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
+            columns         : 0,        // columns to use in the sprite
+            lines           : 0,        // lines to use in the sprite
+            // if size 0, will calculate width and height (according to element size) and overriding their values
+            width           : 0,      // px, width of each frame in the sprite
+            height          : 0,      // px, height of each frame in the sprite
 
-    $.fn.jSprite = {};
-
-    var debug = function (s) {
-        if ($.fn.jSprite.debug) {
-            log(s);
-        }
-    };
-
-    var log = function () {
-
-    };
-
-    var pause = function () {
-
-    };
-    $.fn.jSprite.pause = pause;
-
-    var stop = function () {
-
-    };
-    $.fn.jSprite.stop = stop;
-
-    var goTo = function () {
-
-    };
-    $.fn.jSprite.goTo = goTo;
-
-    var getSize = function (options) {
-        var width = options.width ? options.width : $(options.element).innerWidth();
-        var height = options.height ? options.height : $(options.element).innerHeight();
-
-        return {
-            width: width,
-            height: height
+            total           : 0,        // total frames to use in the sprite
+            timeTransition  : 50,       // milliseconds, time between each frame
+            timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,
+                                        //    if false will not restart, if true will use timeTransition for a smooth restart
         };
-    };
-    
-    var getGrid = function (options, callback){
-        var image = new Image();
-        
-        callback = callback || function () {};
-        
-        image.onload = function () {
-            var columns = options.columns ? options.columns : Math.round(image.width / options.width);
-            var lines = options.lines ? options.lines : Math.round(image.height / options.height);
 
-            callback({
-                columns: columns,
-                lines: lines
-            });
-        }
+    function Plugin ( element, options ) {
+        this.element = element;
+        this.$el = $(this.element);
 
-        image.src = $(options.element).css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+        this.options = $.extend( {}, defaults, options) ;
 
-        return callback;
+        this._defaults = defaults;
+        this._name = pluginName;
+
+        this.init();
     }
 
-    var next = function (sprite, settings, callback) {
-        sprite.position++;
-        var line = (sprite.position % settings.columns) / 100;
+    Plugin.prototype = {
 
-        sprite.left = sprite.left + settings.width;
+        debug: function (s) {
+            if ($.fn.jSprite.debug) {
+                log(s);
+            }
+        },
 
-        if (line === 0) {
-           sprite.top = sprite.top + settings.height;
-           sprite.left = 0;
-        }
+        log: function () {
 
-        settings.element.css({'background-position': '-' + sprite.left + 'px -' + sprite.top + 'px'});
+        },
 
-        sprite.transitionTimeout = setTimeout(function() {
-            animation(sprite, settings, callback);
-        }, settings.timeTransition);
-    };
+        pause: function () {
 
-    var restart = function (sprite, settings, callback) {
-        var delay = (settings.timeReload === true) ? settings.timeTransition : settings.timeReload;
+        },
 
-        settings.element.css({'background-position': '0 0'});
+        stop: function () {
 
-        sprite.reloadTimeout = setTimeout(function() {
-            sprite.position = 0;
-            sprite.top = 0;
-            sprite.left = 0;
+        },
 
-            animation(sprite, settings, callback);
-        }, delay);
-    };
+        goTo: function () {
 
-    var animation = function (sprite, settings, callback) {
-        clearTimeout(sprite.transitionTimeout);
-        clearTimeout(sprite.reloadTimeout);
+        },
 
-        if (settings.element.length && settings.element.is(':visible')) {
-            if (sprite.position < (settings.total - 1)) {
-                next(sprite, settings, callback);
-            } else {
-                // callback on finish animation
-                if (settings.onComplete) {
-                    settings.onComplete();
-                }
+        getSize: function () {
+            var width = this.options.width ? this.options.width : this.$el.innerWidth();
+            var height = this.options.height ? this.options.height : this.$el.innerHeight();
 
-                if (settings.timeReload !== false) {
-                    restart(sprite, settings, callback);
+            return {
+                width: width,
+                height: height
+            };
+        },
+
+        getGrid: function (callback){
+            var image = new Image();
+            var base = this;
+
+            callback = callback || function () {};
+
+            image.onload = function () {
+                var columns = base.options.columns ? base.options.columns : Math.round(image.width / base.options.width);
+                var lines = base.options.lines ? base.options.lines : Math.round(image.height / base.options.height);
+
+                callback({
+                    columns: columns,
+                    lines: lines
+                });
+            };
+
+            image.src = this.$el.css('backgroundImage').replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+
+            return callback;
+        },
+
+        next: function () {
+            this.sprite.position++;
+
+            var line = (this.sprite.position % this.options.columns) / 100;
+
+            this.sprite.left = this.sprite.left + this.options.width;
+
+            if (line === 0) {
+               this.sprite.top = this.sprite.top + this.options.height;
+               this.sprite.left = 0;
+            }
+
+
+            this.$el.css({'background-position': '-' + this.sprite.left + 'px -' + this.sprite.top + 'px'});
+
+            this.sprite.transitionTimeout = setTimeout(function (base) {
+                base.animation();
+            }, this.options.timeTransition, this);
+        },
+
+        restart: function () {
+            var delay = (this.options.timeReload === true) ? this.options.timeTransition : this.options.timeReload;
+
+            this.$el.css({'background-position': '0 0'});
+
+            this.sprite.reloadTimeout = setTimeout(function (base) {
+                base.sprite.position = 0;
+                base.sprite.top = 0;
+                base.sprite.left = 0;
+
+                base.animation();
+            }, delay, this);
+        },
+
+        animation: function () {
+            clearTimeout(this.sprite.transitionTimeout);
+            clearTimeout(this.sprite.reloadTimeout);
+
+            if (this.$el.length && this.$el.is(':visible')) {
+                if (this.sprite.position < (this.options.total - 1)) {
+                    this.next();
+                } else {
+                    // callback on finish animation
+                    if (this.options.onComplete) {
+                        this.options.onComplete();
+                    }
+
+                    if (this.options.timeReload !== false) {
+                        this.restart();
+                    }
                 }
             }
-        }
-    };
+        },
 
-    var play = function (settings, callback) {
-        var sprite = {
-            top                 : 0,
-            left                : 0,
-            position            : 0,    // between 0 and settings.total
-            reloadTimeout       : 0,    // id of timeout used to restart animation
-            transitionTimeout   : 0     // id of timeout used to next frame animation
-        };
+        init: function () {
+            // You already have access to the DOM element and
+            // the options via the instance, e.g. this.element
+            // and this.options
+            // you can add more functions like the one below and
+            // call them like so: this.yourOtherFunction(this.element, this.options).
 
-        var start = function(){
-            if(!settings.total)
-                settings.total = settings.columns * settings.lines;
+            var base = this;
 
-            animation(sprite, settings, callback);
-        }
+            this.sprite = {
+                top                 : 0,
+                left                : 0,
+                position            : 0,    // between 0 and options.total
+                reloadTimeout       : 0,    // id of timeout used to restart animation
+                transitionTimeout   : 0     // id of timeout used to next frame animation
+            };
 
-        if (!settings.width || !settings.height) {
-            settings = $.extend({}, settings, getSize(settings));
-        }
-        
-        if (!settings.columns || !settings.lines) {
-            getGrid(settings, function(result){
-                settings = $.extend({}, settings, result);
-                start();
-            });
-        }else{
+            function start () {
+                if(!base.options.total)
+                    base.options.total = base.options.columns * base.options.lines;
+
+                base.animation();
+            }
+
+            if (!this.options.width || !this.options.height) {
+                this.options = $.extend({}, this.options, this.getSize(base.options));
+            }
+
+            if (!this.options.columns || !this.options.lines) {
+                this.getGrid(function (result) {
+                    base.options = $.extend({}, base.options, result);
+                    start();
+                });
+            }
             start();
         }
+
     };
 
-    var defaults = {
-        // if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
-        columns         : 0,        // columns to use in the sprite
-        lines           : 0,        // lines to use in the sprite
-        // if size 0, will calculate width and height (according to element size) and overriding their values
-        width           : 0,      // px, width of each frame in the sprite
-        height          : 0,      // px, height of each frame in the sprite
-        
-        total           : 0,        // total frames to use in the sprite
-        timeTransition  : 50,       // milliseconds, time between each frame
-        timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,
-                                    //    if false will not restart, if true will use timeTransition for a smooth restart
+    // A really lightweight plugin wrapper around the constructor,
+    // preventing against multiple instantiations
+    $.fn[pluginName] = function ( options ) {
+        return this.each(function () {
+            if (!$.data(this, "plugin_" + pluginName)) {
+                $.data(this, "plugin_" + pluginName,
+                new Plugin( this, options ));
+            }
+        });
     };
 
-    $.fn.jSprite = function (options, callback) {
-        // Merge defaults and options, without modifying defaults
-        play($.extend({}, defaults, options, { element: this }), callback);
-
-        return this;
-    };
-}(jQuery));
+})( jQuery, window, document );
