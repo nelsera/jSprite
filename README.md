@@ -59,10 +59,28 @@ jSprite.restart();
 ```
 
 #### next
-> Next position 1 and continue animation (if not stopped).
+> Next position 1 and continue animation.
 ```javascript
 jSprite.next();
 ```
+
+#### stop
+> stop the animation.
+```javascript
+jSprite.stop();
+```
+
+#### next
+> Next position 1 and continue animation.
+```javascript
+jSprite.next();
+```
+> To stop after just call stop():
+```javascript
+jSprite.next().stop();
+```
+
+
 
 
 ## Browser Support
