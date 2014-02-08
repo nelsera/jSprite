@@ -2,7 +2,7 @@
 
     // Create the defaults once
     var pluginName = "jSprite",
-        ver = "1.3.0",
+        ver = "1.3.1",
         defaults = {
             // if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
             columns         : 0,        // columns to use in the sprite
@@ -30,28 +30,6 @@
     }
 
     Plugin.prototype = {
-
-        debug: function (s) {
-            if ($.fn.jSprite.debug) {
-                log(s);
-            }
-        },
-
-        log: function () {
-
-        },
-
-        pause: function () {
-
-        },
-
-        stop: function () {
-
-        },
-
-        goTo: function () {
-
-        },
 
         getSize: function () {
             var width = this.options.width ? this.options.width : this.$el.innerWidth();
