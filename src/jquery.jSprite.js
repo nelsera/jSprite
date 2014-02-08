@@ -2,7 +2,7 @@
 
     // Create the defaults once
     var pluginName = "jSprite",
-        ver = "1.3.0",
+        ver = "1.3.1",
         defaults = {
             // if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
             columns         : 0,        // columns to use in the sprite
@@ -30,28 +30,6 @@
     }
 
     Plugin.prototype = {
-
-        debug: function (s) {
-            if ($.fn.jSprite.debug) {
-                log(s);
-            }
-        },
-
-        log: function () {
-
-        },
-
-        pause: function () {
-
-        },
-
-        stop: function () {
-
-        },
-
-        goTo: function () {
-
-        },
 
         getSize: function () {
             var width = this.options.width ? this.options.width : this.$el.innerWidth();
@@ -102,6 +80,8 @@
             this.sprite.transitionTimeout = setTimeout(function (base) {
                 base.animation();
             }, this.options.timeTransition, this);
+
+            return this;
         },
 
         restart: function () {
@@ -116,11 +96,25 @@
 
                 base.animation();
             }, delay, this);
+
+            return this;
+        },
+
+        stop: function () {
+            clearTimeout(this.sprite.transitionTimeout);
+            clearTimeout(this.sprite.reloadTimeout);
+
+            return this;
+        },
+
+        continue: function () {
+            this.animation();
+
+            return this;
         },
 
         animation: function () {
-            clearTimeout(this.sprite.transitionTimeout);
-            clearTimeout(this.sprite.reloadTimeout);
+            this.stop();
 
             if (this.$el.length && this.$el.is(':visible')) {
                 if (this.sprite.position < (this.options.total - 1)) {
@@ -136,6 +130,8 @@
                     }
                 }
             }
+
+            return this;
         },
 
         init: function () {
