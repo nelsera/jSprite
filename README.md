@@ -35,6 +35,36 @@ $(".animation").jSprite({
 });
 ```
 
+## Methods
+
+Get access to the methods by creating a var and calling $.data():
+
+```javascript
+$('selector').jSprite();
+var jSprite = $('selector').data('plugin_jSprite');
+```
+
+And now we can call jSprite methods:
+
+```javascript
+jSprite.restart();
+```
+
+### List of Methods
+
+#### restart
+> Back to position 1 and continue animation.
+```javascript
+jSprite.restart();
+```
+
+#### next
+> Next position 1 and continue animation (if not stopped).
+```javascript
+jSprite.next();
+```
+
+
 ## Browser Support
 
 We do care about it.
