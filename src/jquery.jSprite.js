@@ -130,6 +130,8 @@
                     }
                 }
             }
+
+            return this;
         },
 
         init: function () {
