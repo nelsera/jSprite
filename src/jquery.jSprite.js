@@ -80,6 +80,8 @@
             this.sprite.transitionTimeout = setTimeout(function (base) {
                 base.animation();
             }, this.options.timeTransition, this);
+
+            return this;
         },
 
         restart: function () {
@@ -94,11 +96,25 @@
 
                 base.animation();
             }, delay, this);
+
+            return this;
+        },
+
+        stop: function () {
+            clearTimeout(this.sprite.transitionTimeout);
+            clearTimeout(this.sprite.reloadTimeout);
+
+            return this;
+        },
+
+        continue: function () {
+            this.animation();
+
+            return this;
         },
 
         animation: function () {
-            clearTimeout(this.sprite.transitionTimeout);
-            clearTimeout(this.sprite.reloadTimeout);
+            this.stop();
 
             if (this.$el.length && this.$el.is(':visible')) {
                 if (this.sprite.position < (this.options.total - 1)) {
