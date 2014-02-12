@@ -2,18 +2,10 @@
 
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
-    require('time-grunt')(grunt);
 
     grunt.initConfig({
         clean: {
-            dist: {
-                files: [{
-                    dot: true,
-                    src: [
-                        'dist'
-                    ]
-                }]
-            }
+            dist: 'dist'
         },
 
         copy: {
@@ -29,7 +21,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('dist', function () {
-        'clean:dist'
-    });
+    grunt.registerTask('dist', [
+        'clean'
+    ]);
 };
