@@ -101,16 +101,6 @@
             return this;
         },
 
-        prev: function () {
-            this.goTo(this.sprite.position - 1);
-
-            this.sprite.transitionTimeout = setTimeout(function (base) {
-                base.animation();
-            }, this.options.timeTransition, this);
-
-            return this;
-        },
-
         restart: function () {
             var delay = (this.options.timeReload === true) ? this.options.timeTransition : this.options.timeReload;
 
