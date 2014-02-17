@@ -65,28 +65,29 @@
         goTo: function (position) {
             var line = 0;
             var column = 0;
+            var top = 0;
+            var left = 0;
+
             this.sprite.position = position;
 
             if (this.options.columns > 1 && this.options.lines > 1) {
                 line = Math.floor(this.sprite.position / this.options.columns);
                 column = this.sprite.position % this.options.columns;
 
-                this.sprite.left = column * this.options.width;
-                this.sprite.top = line * this.options.height;
+                left = column * this.options.width;
+                top = line * this.options.height;
             }
 
             // vertical sprite
             if (this.options.columns === 1) {
-               this.sprite.top = this.sprite.position * this.options.height;
-               this.sprite.left = 0;
+               top = this.sprite.position * this.options.height;
             }
             // horizontal sprite
             if (this.options.lines === 1) {
-               this.sprite.top = 0;
-               this.sprite.left = this.sprite.position * this.options.width;
+               left = this.sprite.position * this.options.width;
             }
 
-            this.$el.css({'background-position': '-' + this.sprite.left + 'px -' + this.sprite.top + 'px'});
+            this.$el.css({'background-position': '-' + left + 'px -' + top + 'px'});
 
             return this;
         },
@@ -108,8 +109,6 @@
 
             this.sprite.reloadTimeout = setTimeout(function (base) {
                 base.sprite.position = 0;
-                base.sprite.top = 0;
-                base.sprite.left = 0;
 
                 base.animation();
             }, delay, this);
@@ -167,8 +166,6 @@
             var base = this;
 
             this.sprite = {
-                top                 : 0,
-                left                : 0,
                 position            : 0,    // between 0 and options.total
                 reloadTimeout       : 0,    // id of timeout used to restart animation
                 transitionTimeout   : 0     // id of timeout used to next frame animation
