@@ -10,12 +10,10 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    dot: true,
-                    cwd: 'source/',
-                    dest: 'dist/',
-                    src: [
-                        'source/jquery.jSprite.js'
-                    ]
+                    src: ['source/jquery.jSprite.js'],
+                    flatten: true,
+                    dest: 'dist',
+                    filter: 'isFile'
                 }]
             }
         }
