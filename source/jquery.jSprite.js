@@ -62,20 +62,38 @@
             return callback;
         },
 
-        next: function () {
-            this.sprite.position++;
+        goTo: function (position) {
+            var line = 0;
+            var column = 0;
+            var top = 0;
+            var left = 0;
 
-            var line = (this.sprite.position % this.options.columns) / 100;
+            this.sprite.position = position;
 
-            this.sprite.left = this.sprite.left + this.options.width;
+            if (this.options.columns > 1 && this.options.lines > 1) {
+                line = Math.floor(this.sprite.position / this.options.columns);
+                column = this.sprite.position % this.options.columns;
 
-            if (line === 0) {
-               this.sprite.top = this.sprite.top + this.options.height;
-               this.sprite.left = 0;
+                left = column * this.options.width;
+                top = line * this.options.height;
             }
 
+            // vertical sprite
+            if (this.options.columns === 1) {
+               top = this.sprite.position * this.options.height;
+            }
+            // horizontal sprite
+            if (this.options.lines === 1) {
+               left = this.sprite.position * this.options.width;
+            }
 
-            this.$el.css({'background-position': '-' + this.sprite.left + 'px -' + this.sprite.top + 'px'});
+            this.$el.css({'background-position': '-' + left + 'px -' + top + 'px'});
+
+            return this;
+        },
+
+        next: function () {
+            this.goTo(this.sprite.position + 1);
 
             this.sprite.transitionTimeout = setTimeout(function (base) {
                 base.animation();
@@ -91,8 +109,6 @@
 
             this.sprite.reloadTimeout = setTimeout(function (base) {
                 base.sprite.position = 0;
-                base.sprite.top = 0;
-                base.sprite.left = 0;
 
                 base.animation();
             }, delay, this);
@@ -113,21 +129,27 @@
             return this;
         },
 
+        isLastFrame: function () {
+            if (this.sprite.position < (this.options.total - 1)) {
+                return false;
+            }
+
+            return true;
+        },
+
         animation: function () {
             this.stop();
 
-            if (this.$el.length && this.$el.is(':visible')) {
-                if (this.sprite.position < (this.options.total - 1)) {
-                    this.next();
-                } else {
-                    // callback on finish animation
-                    if (this.options.onComplete) {
-                        this.options.onComplete();
-                    }
+            if (!this.isLastFrame()) {
+                this.next();
+            } else {
+                // callback on finish animation
+                if (this.options.onComplete) {
+                    this.options.onComplete();
+                }
 
-                    if (this.options.timeReload !== false) {
-                        this.restart();
-                    }
+                if (this.options.timeReload !== false) {
+                    this.restart();
                 }
             }
 
@@ -144,16 +166,15 @@
             var base = this;
 
             this.sprite = {
-                top                 : 0,
-                left                : 0,
                 position            : 0,    // between 0 and options.total
                 reloadTimeout       : 0,    // id of timeout used to restart animation
                 transitionTimeout   : 0     // id of timeout used to next frame animation
             };
 
             function start () {
-                if(!base.options.total)
+                if (!base.options.total) {
                     base.options.total = base.options.columns * base.options.lines;
+                }
 
                 base.animation();
             }
@@ -167,8 +188,9 @@
                     base.options = $.extend({}, base.options, result);
                     start();
                 });
+            } else {
+                start();
             }
-            start();
         }
 
     };
