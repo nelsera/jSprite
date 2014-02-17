@@ -121,18 +121,16 @@
         animation: function () {
             this.stop();
 
-            if (this.$el.length && this.$el.is(':visible')) {
-                if (this.sprite.position < (this.options.total - 1)) {
-                    this.next();
-                } else {
-                    // callback on finish animation
-                    if (this.options.onComplete) {
-                        this.options.onComplete();
-                    }
+            if (this.sprite.position < (this.options.total - 1)) {
+                this.next();
+            } else {
+                // callback on finish animation
+                if (this.options.onComplete) {
+                    this.options.onComplete();
+                }
 
-                    if (this.options.timeReload !== false) {
-                        this.restart();
-                    }
+                if (this.options.timeReload !== false) {
+                    this.restart();
                 }
             }
 
