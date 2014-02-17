@@ -80,6 +80,12 @@ jSprite.next();
 jSprite.next().stop();
 ```
 
+#### goTo(integer)
+> go to frame.
+```javascript
+jSprite.goTo(5);
+```
+
 
 
 
