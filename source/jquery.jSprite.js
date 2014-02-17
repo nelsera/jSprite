@@ -62,10 +62,10 @@
             return callback;
         },
 
-        next: function () {
-            this.sprite.position++;
+        goTo: function (position) {
+            this.sprite.position = position;
 
-            var line = (this.sprite.position % this.options.columns) / 100;
+            var line = this.sprite.position % this.options.columns;
 
             this.sprite.left = this.sprite.left + this.options.width;
 
@@ -74,8 +74,13 @@
                this.sprite.left = 0;
             }
 
-
             this.$el.css({'background-position': '-' + this.sprite.left + 'px -' + this.sprite.top + 'px'});
+
+            return this;
+        },
+
+        next: function () {
+            this.goTo(this.sprite.position + 1);
 
             this.sprite.transitionTimeout = setTimeout(function (base) {
                 base.animation();
