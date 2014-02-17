@@ -63,10 +63,10 @@
         },
 
         goTo: function (position) {
-            var line = 0;
-            var column = 0;
-            var top = 0;
-            var left = 0;
+            var line    = 0,
+                column  = 0,
+                top     = 0,
+                left    = 0;
 
             this.sprite.position = position;
 
