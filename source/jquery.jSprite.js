@@ -63,15 +63,27 @@
         },
 
         goTo: function (position) {
+            var line = 0;
+            var column = 0;
             this.sprite.position = position;
 
-            var line = this.sprite.position % this.options.columns;
+            if (this.options.columns > 1 && this.options.lines > 1) {
+                line = Math.floor(this.sprite.position / this.options.columns);
+                column = this.sprite.position % this.options.columns;
 
-            this.sprite.left = this.sprite.left + this.options.width;
+                this.sprite.left = column * this.options.width;
+                this.sprite.top = line * this.options.height;
+            }
 
-            if (line === 0) {
-               this.sprite.top = this.sprite.top + this.options.height;
+            // vertical sprite
+            if (this.options.columns === 1) {
+               this.sprite.top = this.sprite.position * this.options.height;
                this.sprite.left = 0;
+            }
+            // horizontal sprite
+            if (this.options.lines === 1) {
+               this.sprite.top = 0;
+               this.sprite.left = this.sprite.position * this.options.width;
             }
 
             this.$el.css({'background-position': '-' + this.sprite.left + 'px -' + this.sprite.top + 'px'});
@@ -81,6 +93,16 @@
 
         next: function () {
             this.goTo(this.sprite.position + 1);
+
+            this.sprite.transitionTimeout = setTimeout(function (base) {
+                base.animation();
+            }, this.options.timeTransition, this);
+
+            return this;
+        },
+
+        prev: function () {
+            this.goTo(this.sprite.position - 1);
 
             this.sprite.transitionTimeout = setTimeout(function (base) {
                 base.animation();
@@ -118,10 +140,18 @@
             return this;
         },
 
+        isLastFrame: function () {
+            if (this.sprite.position < (this.options.total - 1)) {
+                return false;
+            }
+
+            return true;
+        },
+
         animation: function () {
             this.stop();
 
-            if (this.sprite.position < (this.options.total - 1)) {
+            if (!this.isLastFrame()) {
                 this.next();
             } else {
                 // callback on finish animation
@@ -155,8 +185,9 @@
             };
 
             function start () {
-                if(!base.options.total)
+                if (!base.options.total) {
                     base.options.total = base.options.columns * base.options.lines;
+                }
 
                 base.animation();
             }
@@ -170,8 +201,9 @@
                     base.options = $.extend({}, base.options, result);
                     start();
                 });
+            } else {
+                start();
             }
-            start();
         }
 
     };
