@@ -1,27 +1,30 @@
 'use strict';
 
 module.exports = function (grunt) {
-    require('load-grunt-tasks')(grunt);
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.initConfig({
-        clean: {
-            dist: 'dist'
-        },
-
+        clean: ['dist'],
         copy: {
-            files: [{
-                expand: true,
-                dot: true,
-                cwd: 'source',
-                dest: 'dist',
-                src: [
-                    'source/{,*/}*.*'
-                ]
-            }]
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: 'source/',
+                    dest: 'dist/',
+                    src: [
+                        'source/jquery.jSprite.js'
+                    ]
+                }]
+            }
         }
     });
 
     grunt.registerTask('dist', [
-        'clean'
+        'clean',
+        'copy:dist'
     ]);
+
+    grunt.registerTask('default', ['dist']);
 };
