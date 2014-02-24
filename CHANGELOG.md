@@ -1,5 +1,9 @@
 === HEAD
 
+=== 1.3.3 (February 24, 2014) - codexico
+
+* Method prev
+
 === 1.3.2 (February 17, 2014)
 
 * Method goTo

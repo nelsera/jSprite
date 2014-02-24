@@ -2,7 +2,7 @@
 
     // Create the defaults once
     var pluginName = "jSprite",
-        ver = "1.3.2",
+        ver = "1.3.3",
         defaults = {
             // if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
             columns         : 0,        // columns to use in the sprite
