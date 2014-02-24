@@ -93,11 +93,13 @@
         },
 
         next: function () {
-            this.goTo(this.sprite.position + 1);
+            if (!this.isLastFrame()) {
+                this.goTo(this.sprite.position + 1);
+            } else {
+                this.goTo(0);
+            }
 
-            this.sprite.transitionTimeout = setTimeout(function (base) {
-                base.animation();
-            }, this.options.timeTransition, this);
+            this.advance();
 
             return this;
         },
@@ -106,6 +108,8 @@
             var delay = (this.options.timeReload === true) ? this.options.timeTransition : this.options.timeReload;
 
             this.$el.css({'background-position': '0 0'});
+
+            this.stop(); // always call stop() before another setTimeout
 
             this.sprite.reloadTimeout = setTimeout(function (base) {
                 base.sprite.position = 0;
@@ -123,8 +127,12 @@
             return this;
         },
 
-        continue: function () {
-            this.animation();
+        advance: function () {
+            this.stop(); // always call stop() before another setTimeout
+
+            this.sprite.transitionTimeout = setTimeout(function (base) {
+                base.animation();
+            }, this.options.timeTransition, this);
 
             return this;
         },
