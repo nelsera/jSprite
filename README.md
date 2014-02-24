@@ -58,12 +58,6 @@ jSprite.restart();
 jSprite.restart();
 ```
 
-#### next
-> Next position 1 and continue animation.
-```javascript
-jSprite.next();
-```
-
 #### stop
 > stop the animation.
 ```javascript
@@ -71,13 +65,23 @@ jSprite.stop();
 ```
 
 #### next
-> Next position 1 and continue animation.
+> Next position and continue animation.
 ```javascript
 jSprite.next();
 ```
 > To stop after just call stop():
 ```javascript
 jSprite.next().stop();
+```
+
+#### prev
+> Previous position and continue animation.
+```javascript
+jSprite.prev();
+```
+> To stop after just call stop():
+```javascript
+jSprite.prev().stop();
 ```
 
 #### goTo(integer)
