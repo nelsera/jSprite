@@ -2,19 +2,20 @@
 
     // Create the defaults once
     var pluginName = "jSprite",
-        ver = "1.3.3",
+        ver = "1.4.0",
         defaults = {
             // if grid 0, will calculate columns and lines (according to element width, and height) and overriding their values
             columns         : 0,        // columns to use in the sprite
             lines           : 0,        // lines to use in the sprite
             // if size 0, will calculate width and height (according to element size) and overriding their values
-            width           : 0,      // px, width of each frame in the sprite
-            height          : 0,      // px, height of each frame in the sprite
+            width           : 0,        // px, width of each frame in the sprite
+            height          : 0,        // px, height of each frame in the sprite
 
             total           : 0,        // total frames to use in the sprite
             timeTransition  : 50,       // milliseconds, time between each frame
-            timeReload      : true      // true, false or milliseconds, time between the end and a new beginning,
+            timeReload      : true,     // true, false or milliseconds, time between the end and a new beginning,
                                         //    if false will not restart, if true will use timeTransition for a smooth restart
+            reverse         : false     // reverse animation
         };
 
     function Plugin ( element, options ) {
@@ -93,11 +94,21 @@
         },
 
         next: function () {
-            if (!this.isLastFrame()) {
-                this.goTo(this.sprite.position + 1);
-            } else {
-                this.goTo(0);
+            var position = this.sprite.position + 1;
+
+            if (this.isLastFrame()) {
+                position = 0;
             }
+
+            if (this.options.reverse) {
+                position = this.sprite.position - 1;
+
+                if (this.isLastFrame()) {
+                    position = this.options.total - 1;
+                }
+            }
+
+            this.goTo(position);
 
             this.advance();
 
@@ -105,12 +116,13 @@
         },
 
         prev: function () {
-            if (!this.isFirstFrame()) {
-                this.goTo(this.sprite.position - 1);
-            } else {
-                console.log("this.options.total = ", this.options.total);
-                this.goTo(this.options.total - 1);
+            var position = this.sprite.position - 1;
+
+            if (this.isFirstFrame()) {
+                position = this.options.total - 1;
             }
+
+            this.goTo(position);
 
             this.advance();
 
@@ -119,14 +131,13 @@
 
         restart: function () {
             var delay = (this.options.timeReload === true) ? this.options.timeTransition : this.options.timeReload;
+            var position = this.options.reverse ? (this.options.total - 1) : 0;
 
-            this.$el.css({'background-position': '0 0'});
+            this.goTo(position);
 
             this.stop(); // always call stop() before another setTimeout
 
             this.sprite.reloadTimeout = setTimeout(function (base) {
-                base.sprite.position = 0;
-
                 base.animation();
             }, delay, this);
 
@@ -140,6 +151,34 @@
             return this;
         },
 
+        isFirstFrame: function () {
+            var is_first = false;
+
+            if (!this.options.reverse && this.sprite.position !== 0) {
+                is_first = false;
+            }
+
+            if (this.options.reverse && this.sprite.position === (this.options.total - 1)) {
+                is_first = true;
+            }
+
+            return is_first;
+        },
+
+        isLastFrame: function () {
+            var is_last = false;
+
+            if (!this.options.reverse && this.sprite.position === (this.options.total - 1)) {
+                is_last = true;
+            }
+
+            if (this.options.reverse && this.sprite.position === 0) {
+                is_last = true;
+            }
+
+            return is_last;
+        },
+
         advance: function () {
             this.stop(); // always call stop() before another setTimeout
 
@@ -150,24 +189,7 @@
             return this;
         },
 
-        isFirstFrame: function () {
-            if (this.sprite.position !== 0) {
-                return false;
-            }
-
-            return true;
-        },
-
-        isLastFrame: function () {
-            if (this.sprite.position < (this.options.total - 1)) {
-                return false;
-            }
-
-            return true;
-        },
-
         animation: function () {
-            this.stop();
 
             if (!this.isLastFrame()) {
                 this.next();
@@ -205,7 +227,11 @@
                     base.options.total = base.options.columns * base.options.lines;
                 }
 
-                base.animation();
+                if (base.options.reverse) {
+                    base.goTo(base.options.total -1);
+                }
+
+                base.advance();
             }
 
             if (!this.options.width || !this.options.height) {

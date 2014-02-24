@@ -1,6 +1,10 @@
 === HEAD
 
-=== 1.3.3 (February 24, 2014) - codexico
+=== 1.4.0 (February 24, 2014) - codexico
+
+* option reverse
+
+=== 1.3.3 (February 23, 2014) - codexico
 
 * Method prev
 
