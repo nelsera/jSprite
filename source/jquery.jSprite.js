@@ -104,6 +104,19 @@
             return this;
         },
 
+        prev: function () {
+            if (!this.isFirstFrame()) {
+                this.goTo(this.sprite.position - 1);
+            } else {
+                console.log("this.options.total = ", this.options.total);
+                this.goTo(this.options.total - 1);
+            }
+
+            this.advance();
+
+            return this;
+        },
+
         restart: function () {
             var delay = (this.options.timeReload === true) ? this.options.timeTransition : this.options.timeReload;
 
@@ -137,6 +150,14 @@
             return this;
         },
 
+        isFirstFrame: function () {
+            if (this.sprite.position !== 0) {
+                return false;
+            }
+
+            return true;
+        },
+
         isLastFrame: function () {
             if (this.sprite.position < (this.options.total - 1)) {
                 return false;
@@ -168,8 +189,8 @@
             // You already have access to the DOM element and
             // the options via the instance, e.g. this.element
             // and this.options
-            // you can add more functions like the one below and
-            // call them like so: this.yourOtherFunction(this.element, this.options).
+            // you can add more functions and
+            // call them like so: this.yourOtherFunction().
 
             var base = this;
 
