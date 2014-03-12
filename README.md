@@ -41,13 +41,13 @@ Get access to the methods by creating a var and calling $.data():
 
 ```javascript
 $('selector').jSprite();
-var jSprite = $('selector').data('plugin_jSprite');
+var $el = $('selector').data('plugin_jSprite');
 ```
 
 And now we can call jSprite methods:
 
 ```javascript
-jSprite.restart();
+$el.restart();
 ```
 
 ### List of Methods
@@ -55,39 +55,39 @@ jSprite.restart();
 #### restart
 > Back to position 1 and continue animation.
 ```javascript
-jSprite.restart();
+$el.restart();
 ```
 
 #### stop
 > stop the animation.
 ```javascript
-jSprite.stop();
+$el.stop();
 ```
 
 #### next
 > Next position and continue animation.
 ```javascript
-jSprite.next();
+$el.next();
 ```
 > To stop after just call stop():
 ```javascript
-jSprite.next().stop();
+$el.next().stop();
 ```
 
 #### prev
 > Previous position and continue animation.
 ```javascript
-jSprite.prev();
+$el.prev();
 ```
 > To stop after just call stop():
 ```javascript
-jSprite.prev().stop();
+$el.prev().stop();
 ```
 
 #### goTo(integer)
 > go to frame.
 ```javascript
-jSprite.goTo(5);
+$el.goTo(5);
 ```
 
 
