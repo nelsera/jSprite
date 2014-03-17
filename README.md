@@ -88,7 +88,6 @@ $animation.prev().stop();
 > go to frame.
 ```javascript
 $animation.goTo(5);
->>>>>>> 574e02297ad781f38d04f2a2bf944d9e9db328d6
 ```
 
 ## Browser Support
