@@ -79,18 +79,18 @@ body {
 }
 
 .animation {
-    background: url(img/sprite.png) no-repeat;
-    width: 330px;
-    height: 500px;
+    background: url(img/clock.png) no-repeat;
+    width: 128px;
+    height: 128px;
     display: inline-block;
 }
 .red {
     background-color: red;
 }
 .animation2 {
-    background: url(img/sprite.png) no-repeat;
-    width: 330px;
-    height: 500px;
+    background: url(img/clock.png) no-repeat;
+    width: 128px;
+    height: 128px;
     display: inline-block;
 }
 .clock {
