@@ -17,7 +17,7 @@
                                         //    if false will not restart, if true will use timeTransition for a smooth restart
             reverse         : false,    // reverse animation
             wait            : false     // Make the animation wait an custon event to start.
-            // Must be overwrited in the pretended event with $animation.options.wait = false and restart() the animation
+            // Must be overwrited in this event with an $animation.options.wait = false and restart() the animation
         };
 
     function Plugin ( element, options ) {
@@ -132,6 +132,7 @@
         },
 
         restart: function () {
+            var base = this;
             var delay = (this.options.timeReload === true) ? this.options.timeTransition : this.options.timeReload;
             var position = this.options.reverse ? (this.options.total - 1) : 0;
 
@@ -139,7 +140,7 @@
 
             this.stop(); // always call stop() before another setTimeout
 
-            this.sprite.reloadTimeout = setTimeout(function (base) {
+            this.sprite.reloadTimeout = setTimeout(function () {
                 base.animation();
             }, delay, this);
 
@@ -184,8 +185,10 @@
         advance: function () {
             this.stop(); // always call stop() before another setTimeout
             
+            var base = this;
+
             if (this.options.wait !== true) {
-                this.sprite.transitionTimeout = setTimeout(function (base) {
+                this.sprite.transitionTimeout = setTimeout(function () {
                     base.animation();
                 }, this.options.timeTransition, this);
             }
@@ -265,4 +268,4 @@
         });
     };
 
-})( jQuery, window, document );
+})(jQuery, window, document);
