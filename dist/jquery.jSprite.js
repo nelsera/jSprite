@@ -15,7 +15,9 @@
             timeTransition  : 50,       // milliseconds, time between each frame
             timeReload      : true,     // true, false or milliseconds, time between the end and a new beginning,
                                         //    if false will not restart, if true will use timeTransition for a smooth restart
-            reverse         : false     // reverse animation
+            reverse         : false,    // reverse animation
+            wait            : false     // Make the animation wait an custon event to start.
+            // Must be overwrited in this event with an $animation.options.wait = false and restart() the animation
         };
 
     function Plugin ( element, options ) {
@@ -108,8 +110,9 @@
                 }
             }
 
-            this.goTo(position);
+            if (this.options.to === position) return this;
 
+            this.goTo(position);
             this.advance();
 
             return this;
@@ -130,6 +133,7 @@
         },
 
         restart: function () {
+            var base = this;
             var delay = (this.options.timeReload === true) ? this.options.timeTransition : this.options.timeReload;
             var position = this.options.reverse ? (this.options.total - 1) : 0;
 
@@ -137,7 +141,7 @@
 
             this.stop(); // always call stop() before another setTimeout
 
-            this.sprite.reloadTimeout = setTimeout(function (base) {
+            this.sprite.reloadTimeout = setTimeout(function () {
                 base.animation();
             }, delay, this);
 
@@ -181,16 +185,18 @@
 
         advance: function () {
             this.stop(); // always call stop() before another setTimeout
+            
+            var base = this;
 
-            this.sprite.transitionTimeout = setTimeout(function (base) {
+            this.sprite.transitionTimeout = setTimeout(function () {
                 base.animation();
             }, this.options.timeTransition, this);
+
 
             return this;
         },
 
         animation: function () {
-
             if (!this.isLastFrame()) {
                 this.next();
             } else {
@@ -205,6 +211,16 @@
             }
 
             return this;
+        },
+
+        from: function (position) {
+            this.goTo(position);
+        },
+
+        fromTo: function (from, to) {
+            this.from(from);
+            this.options.to = to;
+            this.advance();
         },
 
         init: function () {
@@ -231,7 +247,13 @@
                     base.goTo(base.options.total -1);
                 }
 
-                base.advance();
+                if (base.options.from) {
+                    base.from(base.options.from);
+                }
+
+                if (base.options.wait !== true) {
+                    base.advance();
+                }
             }
 
             if (!this.options.width || !this.options.height) {
@@ -241,6 +263,7 @@
             if (!this.options.columns || !this.options.lines) {
                 this.getGrid(function (result) {
                     base.options = $.extend({}, base.options, result);
+
                     start();
                 });
             } else {
@@ -261,4 +284,4 @@
         });
     };
 
-})( jQuery, window, document );
+})(jQuery, window, document);
