@@ -35,6 +35,16 @@ $(".animation").jSprite({
 });
 ```
 
+#### wait
+> If true, animation is not started. Default <b>false</b>.
+
+#### from
+> Set the initial position of the animation.
+
+#### to
+> Set the end position of the animation.
+
+
 ## Methods
 
 Get access to the methods by creating a var and calling $.data():
