@@ -187,17 +187,15 @@
             
             var base = this;
 
-            if (this.options.wait !== true) {
-                this.sprite.transitionTimeout = setTimeout(function () {
-                    base.animation();
-                }, this.options.timeTransition, this);
-            }
+            this.sprite.transitionTimeout = setTimeout(function () {
+                base.animation();
+            }, this.options.timeTransition, this);
+
 
             return this;
         },
 
         animation: function () {
-
             if (!this.isLastFrame()) {
                 this.next();
             } else {
@@ -212,6 +210,14 @@
             }
 
             return this;
+        },
+
+        from: function (position) {
+            this.goTo(position);
+        },
+
+        to: function () {
+
         },
 
         init: function () {
@@ -238,7 +244,13 @@
                     base.goTo(base.options.total -1);
                 }
 
-                base.advance();
+                if (base.options.from) {
+                    base.from(base.options.from);
+                }
+
+                if (base.options.wait !== true) {
+                    base.advance();
+                }
             }
 
             if (!this.options.width || !this.options.height) {
@@ -248,6 +260,7 @@
             if (!this.options.columns || !this.options.lines) {
                 this.getGrid(function (result) {
                     base.options = $.extend({}, base.options, result);
+
                     start();
                 });
             } else {
