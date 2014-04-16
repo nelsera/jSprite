@@ -217,6 +217,12 @@
             this.goTo(position);
         },
 
+        fromTo: function (from, to) {
+            this.from(from);
+            this.options.to = to;
+            this.advance();
+        },
+
         init: function () {
             // You already have access to the DOM element and
             // the options via the instance, e.g. this.element

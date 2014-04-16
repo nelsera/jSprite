@@ -63,13 +63,14 @@
             console.log('callback');
         }
     });
-    $('.animation2').jSprite({
+    var $animation = $('.animation2').jSprite({
         height: 178,
         total: 18,
         timeTransition: 200,
         from: 5,
-        to: 4
-    });
+        to: 10
+    }).data('plugin_jSprite');
+
     $('.clock').jSprite({
         height: 178,
         total: 18,
