@@ -110,8 +110,9 @@
                 }
             }
 
-            this.goTo(position);
+            if (this.options.to === position) return this;
 
+            this.goTo(position);
             this.advance();
 
             return this;
@@ -214,10 +215,6 @@
 
         from: function (position) {
             this.goTo(position);
-        },
-
-        to: function () {
-
         },
 
         init: function () {
