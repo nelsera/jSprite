@@ -7,7 +7,8 @@
 Three quick start options are available:
 
 * Clone the repo: `git@github.com:marginelson/jSprite.git`
-* Install with [Bower](http://bower.io): `bower install`
+`npm install`
+`bower install`
 
 ## Usage
 
