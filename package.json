@@ -1,6 +1,6 @@
 {
   "name": "jSprite",
-  "version": "0.0.0",
+  "version": "1.4.0",
   "description": "> jQuery plugin for working with sprites of images.",
   "main": "Gruntfile.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git://github.com/marginelson/jSprite.git"
   },
-  "author": "",
+  "author": "Nelson Francisco da Silva",
   "license": "MIT",
   "gitHead": "f161cadd2163eac1258f5fd9528ba577ea634b05",
   "readmeFilename": "README.md",
