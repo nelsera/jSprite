@@ -6,7 +6,7 @@
 
 Three quick start options are available:
 
-* Clone the repo: `git@github.com:marginelson/jSprite.git`
+* Clone the repo: `git clone https://github.com/nelsera/jSprite.git`
 `npm install`
 `bower install`
 
