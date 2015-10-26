@@ -4,7 +4,7 @@
   "description": "> jQuery plugin for working with sprites of images.",
   "main": "Gruntfile.js",
   "scripts": {
-    "start": "npm install; bower install",
+    "start": "npm install; bower install;",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
