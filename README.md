@@ -7,8 +7,9 @@
 Three quick start options are available:
 
 * Clone the repo: `git clone https://github.com/nelsera/jSprite.git`
-`npm install`
-`bower install`
+
+`npm start`
+
 
 ## Usage
 
@@ -111,7 +112,7 @@ IE 7+ ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 
 ## Contributing
 
-Check [CONTRIBUTING.md](https://github.com/marginelson/jSprite/blob/master/CONTRIBUTING.md)
+Check [CONTRIBUTING.md](https://github.com/nelsera/jSprite/blob/master/CONTRIBUTING.md)
 
 ## License
 
